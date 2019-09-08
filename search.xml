@@ -75,6 +75,12 @@
     <title><![CDATA[符号链接和硬链接]]></title>
     <url>%2F2019%2F09%2F08%2F%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5%2F</url>
     <content type="text"><![CDATA[硬链接一个文件至少有一个硬链接，因为文件名就是由链接创建的。 可以理解为C++ 中的引用，创建多个名字，链接到同一块文件数据中。 123#可以使用命令：ls -li来查看 命令的inode 的索引节点指向 硬链接 的两个缺点： 不能跨越物理设备 不能关联目录，只能是文件。符号链接 若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 图 2.）。]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[TopK问题]]></title>
@@ -181,5 +187,8 @@
     <title><![CDATA[Hello World]]></title>
     <url>%2F2019%2F09%2F08%2Fhello-world%2F</url>
     <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+      <tags>
+        <tag>系统</tag>
+      </tags>
   </entry>
 </search>

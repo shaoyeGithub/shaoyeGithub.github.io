@@ -203,7 +203,7 @@
     <link href="http://yoursite.com/2019/09/08/%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5%E5%92%8C%E7%A1%AC%E9%93%BE%E6%8E%A5/"/>
     <id>http://yoursite.com/2019/09/08/符号链接和硬链接/</id>
     <published>2019-09-08T06:11:14.000Z</published>
-    <updated>2019-09-08T06:11:31.987Z</updated>
+    <updated>2019-09-08T07:19:12.292Z</updated>
     
     <content type="html"><![CDATA[<p><img src="https://img-blog.csdnimg.cn/20190628154216937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><hr><h1 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h1><p>一个文件至少有一个硬链接，因为文件名就是由链接创建的。</p><p>可以理解为C++ 中的引用，创建多个名字，链接到同一块文件数据中。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#可以使用命令：</span><br><span class="line">ls -li</span><br><span class="line">来查看 命令的inode 的索引节点指向</span><br></pre></td></tr></table></figure><h2 id="硬链接-的两个缺点："><a href="#硬链接-的两个缺点：" class="headerlink" title="硬链接 的两个缺点："></a>硬链接 的两个缺点：</h2><ol><li>不能跨越物理设备</li><li>不能关联目录，只能是文件。<h1 id="符号链接"><a href="#符号链接" class="headerlink" title="符号链接"></a>符号链接</h1></li></ol><p>若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 图 2.）。<br><img src="https://img-blog.csdnimg.cn/20190628154507324.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/20190628154431314.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>]]></content>
     
@@ -217,6 +217,10 @@
     </summary>
     
     
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
   </entry>
   
@@ -480,7 +484,7 @@
     <link href="http://yoursite.com/2019/09/08/hello-world/"/>
     <id>http://yoursite.com/2019/09/08/hello-world/</id>
     <published>2019-09-08T04:13:05.948Z</published>
-    <updated>2019-09-08T04:13:05.948Z</updated>
+    <updated>2019-09-08T07:23:06.986Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
     
@@ -494,6 +498,8 @@
     </summary>
     
     
+    
+      <category term="系统" scheme="http://yoursite.com/tags/%E7%B3%BB%E7%BB%9F/"/>
     
   </entry>
   
