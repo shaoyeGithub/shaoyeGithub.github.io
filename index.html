@@ -296,6 +296,1245 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/STL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/STL/" itemprop="url">STL</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:19:14+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="STL-六大组件-功能与运用"><a href="#STL-六大组件-功能与运用" class="headerlink" title="STL 六大组件 功能与运用"></a>STL 六大组件 功能与运用</h1><h2 id="1-容器"><a href="#1-容器" class="headerlink" title="1. 容器"></a>1. 容器</h2><p>各种数据结构 ，vector ，list ，deque，set，map，从实现角度来看，STL容器是一种<strong>class template</strong></p>
+<h2 id="2-算法"><a href="#2-算法" class="headerlink" title="2. 算法"></a>2. 算法</h2><p>各种常用算法，sort，search，copy，erase，从实现角度来看，STL容器是一种<strong>function template</strong></p>
+<h2 id="3-迭代器"><a href="#3-迭代器" class="headerlink" title="3. 迭代器"></a>3. 迭代器</h2><p>扮演容器与算法之间的胶合剂，<strong>泛型指针</strong>，有五种类型，从实现角度来说，就是把operator<em>，operator-&gt;,opreator++,opreator–等指针相关操作予以重载的class template ，每个STL容器都附带有自己专属的迭代器。*</em>原生指针也是一种迭代器。**</p>
+<h2 id="4-仿函数"><a href="#4-仿函数" class="headerlink" title="4. 仿函数"></a>4. 仿函数</h2><p>什么是仿函数？<br><strong>行为类似函数。</strong> 好好体会下这句话</p>
+<h2 id="5-配接器（adapters）"><a href="#5-配接器（adapters）" class="headerlink" title="5. 配接器（adapters）"></a>5. 配接器（adapters）</h2><p>顾名思义，想想配接器模式（adapter design）</p>
+<h2 id="6-配置器（allocators）"><a href="#6-配置器（allocators）" class="headerlink" title="6. 配置器（allocators）"></a>6. 配置器（allocators）</h2><p>负责空间配置与管理，实现了动态空间配置，空间管理，空间释放。</p>
+<hr>
+<h1 id="空间配置器（allocator）"><a href="#空间配置器（allocator）" class="headerlink" title="空间配置器（allocator）"></a>空间配置器（allocator）</h1><p><img src="https://img-blog.csdnimg.cn/20190523151956853.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20190523152031876.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>SGI设计了<strong>双层级配置器</strong>（面试会被问道），主要是为了解决小型区块所可能造成的内存破碎问题。<br>SGI第一级配置器通过 <strong>malloc和 free</strong> 完成内存的配置与释放。第二级配置器则通过不同的策略来进行操作：首先，看配置区块的大小，看其是否超过128bytes，是的话，给第一级配置器，当配置器区块小于128bytes时，采用<strong>memory pool</strong> 整理方式。<br>那么，究竟只用第一级就OK，还是同时都用呢，要看__USE_MALLOC 这个参数是否被定义。（侯捷老师这里注：说这个参数名字并不理想，因为无论如何malloc总是要被调用的，对吧）。具体过程看下图。<br><img src="https://img-blog.csdnimg.cn/2019052315362462.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<hr>
+<p>下面逐个讲解第一级配置器和第二级配置器</p>
+<p><strong>第一级配置器</strong>：</p>
+<p>实现类似C++ new-handler 的机制，不能直接运用该机制，是因为他并非使用operator new 来配置内存。</p>
+<p>那么什么是new-handler 机制呢，可以要求系统在内存配置需求无法被满足的时候，调用一个你指定的函数，换句话说，当内存配置不好使的时候，你可以让系统执行你指定的函数。</p>
+<p>也就是  :: operator new 没有完成任务，在丢出std::bad_alloc 异常状态之前，会先调用有客户端也就是你指定的处理例程，处理例程通常叫做new-handler。</p>
+<p><strong>侯老师在这里多嘱咐了几句：说设计和设定“内存不足处理例程”是客户端的责任，有特定的套路</strong></p>
+<p><strong>第二级配置器：</strong><br>小于128bytes时，以内存池管理（memory pool），该方法又称为（sub-allocation）;每次配置一大块内存，并维护对应之自由链表（free-list）。<br>有16个free-lists，各自管理不同大小的小额区块，例如8,16,32,,,<br>每次配置一大块内存，并维护对应的free list，若下次还是相同大小的内存需求，直接从free-list中拨出。</p>
+<ol>
+<li>allocate（）函数 ，该函数，首先判断区块大小，大于128，嗯，你懂得，小于的话，就看对应的free-list。如果free-list 内有能用的区块，就直接拿来用，没有的话，将区块上调至8倍数边界，然后调用refill（）函数，准备为free-list重新填充空间。</li>
+<li>dellocate（）函数，同样的，首先判断区块大小，大于128，小于128，就找到对应的free-list ，将区块回收。</li>
+<li>chunk_alloc() 函数，从内存池中取空间给free-list，首先会判断水量够不够，够的话，就取出20个区块给free-list，不够20个区块，还可以供应一个以上的话，就把这些区块拨出去，问题来了，假如一个都不够的话，该怎么办，对客户端显然无法交代，对不对，通过malloc（）从heap中配置内存，为池子里注入新的水以供使用。新水量为需求的两倍，再加上一个随着配置次数增加而越来越大的附加量。<br><img src="https://img-blog.csdnimg.cn/20190523161415571.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20190523161218338.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190523161252757.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ol>
+<h2 id="内存池（面试题）"><a href="#内存池（面试题）" class="headerlink" title="内存池（面试题）"></a>内存池（面试题）</h2><hr>
+<h1 id="迭代器（iterators）概念与traits编程技法"><a href="#迭代器（iterators）概念与traits编程技法" class="headerlink" title="迭代器（iterators）概念与traits编程技法"></a>迭代器（iterators）概念与traits编程技法</h1><p>STL 的中心思想在于：将数据容器和算法分开，彼此独立设计，最后再以一贴胶水将两者联系在一起。</p>
+<p>迭代器是一种smart pointer</p>
+<h1 id="序列式容器"><a href="#序列式容器" class="headerlink" title="序列式容器"></a>序列式容器</h1><h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><p>vector 与array 的区别是什么呢？<br>array 是静态空间，一旦配置了就不能改变，vector是动态空间。vector数据空间是连续线性空间，为了降低空间配置是的速度成本，vector实际配置的大小可能比客户端需求量更大一些。</p>
+<p>vector 动态增加大小，并不是在原来的空间之后接续新空间（因为无法保证原始空间后面是不是还有可以分配的空间），而是以原大小的两倍另外配置一块较大的空间，然后将原内容拷贝过来，然后才开始在原内容之后构造新元素，并释放原始空间。</p>
+<p>vector 为<strong>单向数组</strong>，只能pushback 和pop back<br><img src="https://img-blog.csdnimg.cn/20190523162903486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>腾讯面试题：通过三个迭代器：start，finish，end_of_storage 完成内存分配。</p>
+<hr>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>list 有个一个prev 和next ，所以为双向链表，而且还是<strong>环装双向链表</strong></p>
+<hr>
+<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>deque是一个双向开口的<strong>连续线性空间</strong>。可以在头尾两端分别做元素的插入和删除操作。</p>
+<p>deque 的 迭代器的比较复杂相比于vector<br>因此，除非必要，我们应尽可能选择使用vector，而非deque，例如，对deuqe进行排序操作，为了高效，可以将deque先完整复制到一个vector，将vector排序后（利用STL sort 算法），在复制回deque。</p>
+<p>deque 数据结构 采用所谓map 作为主控，map是一小块连续空间，其中每个元素（此处叫node，节点）都是指针，指向另一段（较大的）连续线性空间，称为缓冲区。缓冲区才是deque 的存储空间主体。我们可以指定缓冲区的大小。默认为512bytes。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190523191621566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<hr>
+<h2 id="stack"><a href="#stack" class="headerlink" title="stack"></a>stack</h2><p>以某种既有容器作为底部结构，将其接口改变，让其满足“先进后出”的特性，形成一个stack，是很容易做到的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190523170838723.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="queue"><a href="#queue" class="headerlink" title="queue"></a>queue</h2><p><img src="https://img-blog.csdnimg.cn/20190523170903185.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="heap"><a href="#heap" class="headerlink" title="heap"></a>heap</h2><p><img src="https://img-blog.csdnimg.cn/2019052317101699.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="priority-queue"><a href="#priority-queue" class="headerlink" title="priority_queue"></a>priority_queue</h2><p><img src="https://img-blog.csdnimg.cn/20190523171111432.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="slist"><a href="#slist" class="headerlink" title="slist"></a>slist</h2><p>单向链表</p>
+<h1 id="关联式容器"><a href="#关联式容器" class="headerlink" title="关联式容器"></a>关联式容器</h1><h2 id="RB-tree"><a href="#RB-tree" class="headerlink" title="RB-tree"></a>RB-tree</h2><p><img src="https://img-blog.csdnimg.cn/20190523171320794.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<hr>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>底层数据结构 是RB-tree </p>
+<p>面对关联式容器，应该使用其所提供的find函数来搜寻元素，效率更高</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">itel = iset.find(3);          //查找3这个元素 而不是用find（first，last，value）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>底层也是RB-tree 树  &lt;key,value&gt;</p>
+<h2 id="multiset-amp-multimap"><a href="#multiset-amp-multimap" class="headerlink" title="multiset &amp; multimap"></a>multiset &amp; multimap</h2><p>multiset 的特性以及用法和set一致的，唯一的区别在于，它允许键值重复，map和multimap 也是如此</p>
+<h2 id="hash-set-amp-hash-map-amp-hash-multiset-amp-hash-multimap"><a href="#hash-set-amp-hash-map-amp-hash-multiset-amp-hash-multimap" class="headerlink" title="hash_set &amp; hash_map &amp; hash_multiset &amp; hash_multimap"></a>hash_set &amp; hash_map &amp; hash_multiset &amp; hash_multimap</h2><p>底层都是hashtable</p>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int a[] = &#123;0,1,2,3,4,5,6,6,6,7,8&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for_each(begin(),end(),display&lt;int&gt;());  // 可以用来打印  </span><br><span class="line">adjacet_find(begin(),end());// 找到相邻元素值相等的第一个元素 ,这里为6</span><br><span class="line">adjacet_find(begin(),end(),equal_to&lt;int&gt;());// 找到相邻元素值相等的第一个元素 ,这里为6</span><br><span class="line">count(begin(),end(),6) ;// 数组中值为6的个数</span><br><span class="line">count_if(begin(),end(),bind2nd(less&lt;int&gt;()),7); // 找出小于7的元素个数 </span><br><span class="line">find_if(begin(),end(),bind2nd(greater&lt;int&gt;()),2)// 找出第一个大于2的元素的位置</span><br></pre></td></tr></table></figure>
+
+<p>注：假如未来有一天，我会在这里加上代码，记上常用的算法</p>
+<h1 id="仿函数（另名-函数对象-function-objects）"><a href="#仿函数（另名-函数对象-function-objects）" class="headerlink" title="仿函数（另名 函数对象 function objects）"></a>仿函数（另名 函数对象 function objects）</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//用户继承 binary_function,便可以取得该仿函数的各种相应的类型</span><br><span class="line">eg：</span><br><span class="line">template&lt;class T&gt;</span><br><span class="line">struct plus :public binary_function&lt;T,T,T&gt;&#123;</span><br><span class="line">    T  opreator()(const T&amp; x,const T&amp; y) const &#123;return x+y&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="配接器"><a href="#配接器" class="headerlink" title="配接器"></a>配接器</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/面经总结基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/面经总结基础知识/" itemprop="url">面经总结基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:18:19+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h1><h2 id="1-ping命令的基本原理？"><a href="#1-ping命令的基本原理？" class="headerlink" title="1.ping命令的基本原理？"></a>1.ping命令的基本原理？</h2><p>【答】ping 命令用来测试两个主机间的连通性，使用ICMP（Internet Control Message Protocol，网际控制协议）中会送请求和会送回答请求，是应用层使用网络层ICMP的一个例子，没有通过运输层的TCP和UDP。</p>
+<p>ping命令使得本地主机连续发送了四个ICMP回送请求报文，然后远程的主机正常工作的话就会像图中显示的结果一样，响应并发回ICMP回送回答报文。每个报文都有其时间戳，所以最终得出了往返时间以及报文的发送接收丢失的结果。</p>
+<h2 id="2-TCP-拥塞控制和流量控制的方法"><a href="#2-TCP-拥塞控制和流量控制的方法" class="headerlink" title="2. TCP 拥塞控制和流量控制的方法"></a>2. TCP 拥塞控制和流量控制的方法</h2><p>可以参考：<a href="https://www.cnblogs.com/wxgblogs/p/5616829.html" target="_blank" rel="noopener">https://www.cnblogs.com/wxgblogs/p/5616829.html</a> ，总结的不错</p>
+<h2 id="2-1-拥塞控制"><a href="#2-1-拥塞控制" class="headerlink" title="2.1 拥塞控制"></a>2.1 拥塞控制</h2><p>【答】 拥塞控制： 快重传，慢开始，拥塞避免，以及快回复。</p>
+<h2 id="2-2-流量控制"><a href="#2-2-流量控制" class="headerlink" title="2.2 流量控制"></a>2.2 流量控制</h2><p>【答】 流量控制就是让发送方的发送速率不要太快，让接收方来得及接受。<br>是通过滑动窗口来控制。</p>
+<hr>
+<h2 id="3-IPV4-的三类地址"><a href="#3-IPV4-的三类地址" class="headerlink" title="3. IPV4 的三类地址"></a>3. IPV4 的三类地址</h2><p><img src="https://img-blog.csdnimg.cn/2019052811441341.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="1-虚拟内存介绍一下"><a href="#1-虚拟内存介绍一下" class="headerlink" title="1. 虚拟内存介绍一下"></a>1. 虚拟内存介绍一下</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/C-面试问题总结-CPP基础、网络编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/C-面试问题总结-CPP基础、网络编程/" itemprop="url">C++面试问题总结(CPP基础、网络编程)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:16:56+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="1-main-函数-执行前-和执行后会执行什么？"><a href="#1-main-函数-执行前-和执行后会执行什么？" class="headerlink" title="1. main 函数 执行前 和执行后会执行什么？"></a>1. main 函数 执行前 和执行后会执行什么？</h1><p>【答】main 函数执行之前，主要是初始化系统相关的资源以及函数的初始化工作</p>
+<ol>
+<li>设置栈指针</li>
+<li>初始化static 静态和global 全局变量，即data段的内容</li>
+<li>将还没有初始化的全局变量进行赋值，eg：数值型 short int long 等为0，bool 为false 指针为null，等等，即 bss段</li>
+<li>运行全局构造器，进行 C++ 中的函数构造</li>
+<li>将main 函数的参数，argc，argv 等传递给main函数，才能 真正运行</li>
+</ol>
+<p>main 函数执行之后，会运行 全局对象的析构函数<br>可以用_oneexit 注册一个 函数，它会在main 之后 执行</p>
+<p>如果你需要加入一段在main退出后执行的代码，可以使用atexit()函数，注册一个函数。 </p>
+<hr>
+<h1 id="2-网络粘包问题"><a href="#2-网络粘包问题" class="headerlink" title="2. 网络粘包问题"></a>2. 网络粘包问题</h1><p>参考 ：<a href="https://blog.csdn.net/zhangxinrun/article/details/6721495" target="_blank" rel="noopener">https://blog.csdn.net/zhangxinrun/article/details/6721495</a></p>
+<h2 id="2-1-长连接-和-短连接"><a href="#2-1-长连接-和-短连接" class="headerlink" title="2.1 长连接 和 短连接"></a>2.1 长连接 和 短连接</h2><p>【答】</p>
+<ol>
+<li>长连接<br> client 与 server 建立连接后<strong>不断开</strong> ，然后再进行 报文发送和 报文接受</li>
+<li>短连接<br>client 与 server 每一次进行报文通讯时才进行连接建立，交易完毕后立即断开连接，适用于一点对多点的通讯，例如多个client 与 一个 server</li>
+</ol>
+<h2 id="2-2-什么时候需要考虑粘包问题？"><a href="#2-2-什么时候需要考虑粘包问题？" class="headerlink" title="2.2 什么时候需要考虑粘包问题？"></a>2.2 什么时候需要考虑粘包问题？</h2><ol>
+<li><strong>如果利用tcp 每次发送数据，就与对方建立连接，然后双方发送完一段数据后，就关闭连接，这样就不会出现粘包问题</strong></li>
+<li>1 因为只有一种包结构，类似于http协议，关闭连接主要要双方都发送 close 连接。</li>
+<li><strong>如果发送数据无结构，如文件传输，这样发送方只管发送，接收方只管接受存储就ok，也不用考虑粘包</strong></li>
+<li>Ding~~ 如果双方建立建立，需要在连接后一段时间内发送不同的数据结构，所以一般需要在 头 加上 一个数据长度之类的包，以确保接受。</li>
+</ol>
+<h2 id="2-3-粘包出现原因："><a href="#2-3-粘包出现原因：" class="headerlink" title="2.3 粘包出现原因："></a>2.3 粘包出现原因：</h2><p>在流传输中，udp 不会出现粘包，因为它有消息边界（参考windows 网络编程）</p>
+<hr>
+<ol>
+<li>发送端需要等缓冲区满才发送出去，会造成粘包</li>
+<li>接受方不及时接受缓冲区的包，造成多个包接受</li>
+</ol>
+<h2 id="2-4-解决方法"><a href="#2-4-解决方法" class="headerlink" title="2.4 解决方法"></a>2.4 解决方法</h2><ol>
+<li>对于发送方引起的粘包现象，用户可通过编程设置类避免，TCP提供了强制数据立即传送的push 指令，也就是说不必等着 缓冲区满才发送出去，</li>
+<li>对于接受方引起的粘包，则可以通过优化程序设计，精简接受进程工作量，提高接受进程优先级等措施，使其及时接受数据，从而避免出现粘包问题，</li>
+<li>由 接受方控制，将一包数据按结构 字段，人为控制分多次接收，然后合并，通过这种手段来避免粘包</li>
+</ol>
+<p>以上提到的三种措施，都有其不足之处。<br>第一种编程设置方法虽然可以避免发送方引起的粘包，但它关闭了优化算法，降低了网络发送效率，影响应用程序的性能，一般不建议使用。</p>
+<p>第二种方法只能减少出现粘包的可能性，但并不能完全避免粘包，当发送频率较高时，或由于网络突发可能使某个时间段数据包到达接收方较快，接收方还是有可能来不及接收，从而导致粘包。</p>
+<p>第三种方法虽然避免了粘包，但应用程序的效率较低，对实时应用的场合不适合。</p>
+<h2 id="2-5-网络现象解释"><a href="#2-5-网络现象解释" class="headerlink" title="2.5 网络现象解释"></a>2.5 网络现象解释</h2><p>A.先接收到data1,然后接收到data2.<br>B.先接收到data1的部分数据,然后接收到data1余下的部分以及data2的全部.<br>C.先接收到了data1的全部数据和data2的部分数据,然后接收到了data2的余下的数据.<br>D.一次性接收到了data1和data2的全部数据.</p>
+<p>为什么会出现B.C.D的情况.<br>“粘包”可发生在发送端也可发生在接收端.</p>
+<p>1.<strong>由Nagle算法造成的发送端的粘包</strong>:Nagle算法是一种改善网络传输效率的算法.简单的说,当我们提交一段数据给TCP发送时,TCP并不立刻发送此段数据,而是等待一小段时间,看看在等待期间是否还有要发送的数据,若有则会一次把这两段数据发送出去.这是对Nagle算法一个简单的解释,详细的请看相关书籍.象C和D的情况就有可能是Nagle算法造成的.</p>
+<p>注: Nagle算法  用于自动连接许多的小缓冲器消息；这一过程（称为nagling）通过减少必须发送包的个数来增加网络软件系统的效率。</p>
+<p>2.<strong>接收端接收不及时造成的接收端粘包</strong>:TCP会把接收到的数据存在自己的缓冲区中,然后通知应用层取数据.当应用层由于某些原因不能及时的把TCP的数据取出来,就会造成TCP缓冲区中存放了几段数据.</p>
+<h2 id="2-6-UDP-会出现粘包问题吗？"><a href="#2-6-UDP-会出现粘包问题吗？" class="headerlink" title="2.6 UDP 会出现粘包问题吗？"></a>2.6 UDP 会出现粘包问题吗？</h2><p>【答】</p>
+<ol>
+<li>对于UDP，<strong>不会使用块的合并优化算法</strong>，这样，实际上目前认为，是由于UDP支持的是一对多的模式，所以接收端的skbuff(套接字缓冲区）采用了链式结构来记录每一个到达的UDP包，在每个UDP包中就有了消息头（消息来源地址，端口等信息），这样，对于接收端来说，就容易进行区分处理了。所以UDP不会出现粘包问题</li>
+</ol>
+<hr>
+<h2 id="2-7-保护消息边界和流"><a href="#2-7-保护消息边界和流" class="headerlink" title="2.7 保护消息边界和流"></a>2.7 保护消息边界和流</h2><p>参考：<a href="https://blog.csdn.net/tiandijun/article/details/41961785" target="_blank" rel="noopener">https://blog.csdn.net/tiandijun/article/details/41961785</a></p>
+<hr>
+<p>保护消息边界和流</p>
+<p>那么什么是保护消息边界和流呢?</p>
+<p><strong>保护消息边界</strong>，就是指传输协议把数据当作一条独立的消息在网上传输，接收端只能接收独立的消息。也就是说存在保护消息边界，接收端一次只能接收发送端发出的一个数据包。而面向流则是指无保护消息保护边界的，如果发送端连续发送数据，接收端有可能在一次接收动作中，会接收两个或者更多的数据包。</p>
+<p>例如，我们连续发送三个数据包，大小分别是2k，4k ，8k,这三个数据包，都已经到达了接收端的网络堆栈中，如果使用UDP协议，不管我们使用多大的接收缓冲区去接收数据，我们必须有三次接收动作，才能够把所有的数据包接收完.而使用TCP协议，我们只要把接收的缓冲区大小设置在14k以上，我们就能够一次把所有的数据包接收下来，只需要有一次接收动作。</p>
+<p>注意：</p>
+<p>这就是因为UDP协议的保护消息边界使得每一个消息都是独立的。而流传输却把数据当作一串数据流，他不认为数据是一个一个的消息。所以有很多人在使用tcp协议通讯的时候，并不清楚tcp是基于流的传输，当连续发送数据的时候，他们时常会认识tcp会丢包。其实不然，因为当他们使用的缓冲区足够大时，他们有可能会一次接收到两个甚至更多的数据包，而很多人往往会忽视这一点，只解析检查了第一个数据包，而已经接收的其他数据包却被忽略了。所以大家如果要作这类的网络编程的时候,必须要注意这一点。</p>
+<hr>
+<h1 id="3-内存池的设计"><a href="#3-内存池的设计" class="headerlink" title="3. 内存池的设计"></a>3. 内存池的设计</h1><p>参考 STL源码解析 ，其中有对 STL 内存池的介绍</p>
+<h1 id="4-网络编程中的加密算法"><a href="#4-网络编程中的加密算法" class="headerlink" title="4. 网络编程中的加密算法"></a>4. 网络编程中的加密算法</h1><h2 id="4-1-如何解决数据传输的安全问题？"><a href="#4-1-如何解决数据传输的安全问题？" class="headerlink" title="4.1 如何解决数据传输的安全问题？"></a>4.1 如何解决数据传输的安全问题？</h2><h2 id="4-2-加密算法"><a href="#4-2-加密算法" class="headerlink" title="4.2 加密算法"></a>4.2 加密算法</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/使用FileZilla-上传-文件-到-linux-时-提示550-Permission-denied/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/使用FileZilla-上传-文件-到-linux-时-提示550-Permission-denied/" itemprop="url">使用FileZilla 上传 文件 到 linux 时 提示550 Permission denied</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:15:46+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h1><p>在Windows系统中使用FileZilla 上传文件时提示”550 Permission denied”错误时（如下图）<br><img src="https://img-blog.csdnimg.cn/20190621093601967.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>FileZilla  不能使用<br><img src="https://img-blog.csdnimg.cn/20190621094517782.png" alt="在这里插入图片描述"></p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>关键是第二步<br><img src="https://img-blog.csdnimg.cn/20190621094623148.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/微服务/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/微服务/" itemprop="url">微服务</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:15:02+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>微服务是由以<strong>单一应用程序</strong>构成的<strong>小服务</strong>，自己拥有自己的行程与轻量化处理，服务依<strong>业务功能</strong>设计，以<strong>全自动</strong>的方式部署，与其他服务使用HTTP API 通信。<br>同时服务会使用最小的规模的集中管理（例如Docker）能力，服务可以用不同的编程语言与数据库等组件实现。</p>
+<h1 id="核心想法"><a href="#核心想法" class="headerlink" title="核心想法"></a>核心想法</h1><p>是让服务由类似Unix管道的访问方式使用，而且复杂的服务背后是使用简单URI来开放接口，任何服务，任何细粒都能被开发。</p>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><p>微服务理念中有数个数据库的规划方式。</p>
+<p>每个服务都各有一个数据库，同属性的服务可共享同个数据库。<br>所有服务都共享同个数据库，但是不同表格，并且不会跨域访问。<br>每个服务都有自己的数据库，就算是同属性的服务也是，数据库并不会共享。</p>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>一个微服务架构的应用程序有下列特性：</p>
+<ol>
+<li>每个服务都容易被取代</li>
+<li>服务是以能力来组织的，例如用户界面、前端、推荐系统、账单或是物流</li>
+<li>由于功能被拆分成多个服务，因此可以由不同的编程语言、数据库实现</li>
+<li>架构是对称而非分层（即 消费者和生产者的关系）</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/启动zookeeper成功查看状态时却显示It-is-probably-not-running/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/启动zookeeper成功查看状态时却显示It-is-probably-not-running/" itemprop="url">启动zookeeper成功查看状态时却显示It is probably not running</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:13:20+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>可以 通过 下面命令来看错在哪里</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zkServer.sh start-foreground</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20190626195718509.png" alt="在这里插入图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/cp、-通配符、mv命令实例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/cp、-通配符、mv命令实例/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:12:14+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<p>title: cp、 通配符、mv命令实例<br>date: 2019-09-08 14:12:14<br>tags: linux</p>
+<hr>
+<h1 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h1><p><img src="https://img-blog.csdnimg.cn/20190628152345979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="mv"><a href="#mv" class="headerlink" title="mv"></a>mv</h1><p><img src="https://img-blog.csdnimg.cn/20190628152507702.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h1><p><img src="https://img-blog.csdnimg.cn/20190628152012469.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190628152047129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190628152110920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<hr>
+<p>关于linux 的基础知识，包括文件系统和一些简单的指令<br><a href="http://billie66.github.io/TLCL/book/index.html" target="_blank" rel="noopener">http://billie66.github.io/TLCL/book/index.html</a></p>
+<hr>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/符号链接和硬链接/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/符号链接和硬链接/" itemprop="url">符号链接和硬链接</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:11:14+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://img-blog.csdnimg.cn/20190628154216937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<hr>
+<h1 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h1><p>一个文件至少有一个硬链接，因为文件名就是由链接创建的。</p>
+<p>可以理解为C++ 中的引用，创建多个名字，链接到同一块文件数据中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#可以使用命令：</span><br><span class="line">ls -li</span><br><span class="line">来查看 命令的inode 的索引节点指向</span><br></pre></td></tr></table></figure>
+
+<h2 id="硬链接-的两个缺点："><a href="#硬链接-的两个缺点：" class="headerlink" title="硬链接 的两个缺点："></a>硬链接 的两个缺点：</h2><ol>
+<li>不能跨越物理设备</li>
+<li>不能关联目录，只能是文件。<h1 id="符号链接"><a href="#符号链接" class="headerlink" title="符号链接"></a>符号链接</h1></li>
+</ol>
+<p>若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 图 2.）。<br><img src="https://img-blog.csdnimg.cn/20190628154507324.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190628154431314.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/TopK问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/TopK问题/" itemprop="url">TopK问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:08:41+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>问题描述：<br>海量数据寻找 第 K大的数字</p>
+<p>解法1： 首先随便找一个数字当做哨兵，比该数字大的放在哨兵的前面，假设为集合A，比该数字小的放到集合B。</p>
+<p>统计出来集合A的大小，为T。</p>
+<ol>
+<li>如果T的大小比K小，则在 集合B 中寻找K-T大小的数字</li>
+<li>如果T的大小比K大，则在集合A中继续寻找数字当做哨兵，进行集合分割。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/daemon-进程为什么要fork两次，与后台运行程序区别？/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -420,1255 +1659,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/git-fork-别人的项目后再同步/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/git-fork-别人的项目后再同步/" itemprop="url">git fork 别人的项目后再同步</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:06:03+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream  fork的原始git 地址</span><br><span class="line">git remote -v ;</span><br><span class="line">git fetch upstream;                    </span><br><span class="line">git merge upstream/master;</span><br><span class="line">git pull origin master;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-
-<pre><code>git remote -v                               //可以查看 添加后的分支状态
-git fetch upstream                    //从原始仓库更新同步代码
-git merge upstream/master            //合并到本地代码
-git pull origin master   // 更新合并自己的远程仓库的代码
-git push                   //向自己远程仓库推送刚才同步源仓库后的代码</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/敏捷开发/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/敏捷开发/" itemprop="url">敏捷开发</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:04:46+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="敏捷开发的定义"><a href="#敏捷开发的定义" class="headerlink" title="敏捷开发的定义"></a>敏捷开发的定义</h1><p>以<strong>用户的需求进化</strong>作为核心，采用迭代、循序渐进的方法进行软件开发。</p>
-<p>换句话说就是把一个大的项目分为多个相互联系，但也可以独立运行的小项目（story？<br>），并分别完成，在这个过程中软件一直处于<strong>可使用</strong>的状态。</p>
-<h1 id="应用场景和特点"><a href="#应用场景和特点" class="headerlink" title="应用场景和特点"></a>应用场景和特点</h1><p>在软件项目的构建初期被切分成多个子项目，各个子项目的成果都经过测试，具备可视、可集成和可运行使用的特征。</p>
-<h1 id="开发宣言"><a href="#开发宣言" class="headerlink" title="开发宣言"></a>开发宣言</h1><pre><code>个体和交互 胜过过程和工具
-可以工作的软件 胜过 面面俱到的文档
-客户合作  胜过 合同谈判
-响应变化 胜过 遵循计划</code></pre><p>注：虽然右项也有价值，但是我们认为左项具有更大的价值。</p>
-<h1 id="开发原则"><a href="#开发原则" class="headerlink" title="开发原则"></a>开发原则</h1><ol>
-<li>快速迭代</li>
-<li>让测试人员和开发者参与需求讨论</li>
-<li>编写可测试的需求文档<br> 开始就用“用户故事”（user story）的方法来编写需求文档。</li>
-<li>多沟通，尽量减少文档</li>
-<li>做好产品原型<br>建议使用草图和模型来阐明用户界面，并不是所有人都可以理解一份复杂的文档，但人人都会看图。</li>
-<li>及早考虑测试。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/、释放命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/、释放命令/" itemprop="url">、释放命令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:03:41+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">free -m  查看内存使用情况</span><br><span class="line"></span><br><span class="line">echo 1 &gt; /proc/sys/vm/drop_caches     // 释放页缓存</span><br><span class="line">echo 2 &gt; /proc/sys/vm/drop_caches     //释放dentries和inodes</span><br><span class="line">echo 3 &gt; /proc/sys/vm/drop_caches     // 释放所有缓存</span><br><span class="line"></span><br><span class="line">到这里内存就释放完了，现在drop_caches中的值为1，如果现在想让操作系统重新分配内存，那么设置drop_caches的值为0即可：</span><br><span class="line"></span><br><span class="line">echo 0 &gt; /proc/sys/vm/drop_caches</span><br><span class="line"></span><br><span class="line">free m</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/extren关键字/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/extren关键字/" itemprop="url">extren关键字</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:00:00+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>@[toc]</p>
-<h1 id="首先-明白-这个单词-是什么意思？"><a href="#首先-明白-这个单词-是什么意思？" class="headerlink" title="首先 明白 这个单词 是什么意思？"></a>首先 明白 这个单词 是什么意思？</h1><p>Extern : 外部 的意思</p>
-<h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><p>置于 变量或者函数前，表示变量或者函数的定义在别的文件中，提示 编译器 遇到此变量和函数时，在其他模块中寻找其定义。</p>
-<h1 id="作用-主要有两个"><a href="#作用-主要有两个" class="headerlink" title="作用  主要有两个"></a>作用  主要有两个</h1><p>第一个 ： 与 “C” 一起连用时，如 extern  “C” void fun（int a，int b）告诉编译器在编译fun 这个函数名的时候按照C的规则去编译。而不是C++</p>
-<p>第二个： 当extern 不与C 一起修饰变量或函数时。如在头文件中：externa int g_int ;作用是：   声明函数或者全局变量 的作用范围的关键字，声明的函数或者变量可以在本模块或者其他模块中使用。记住，它 是<strong>一个声明不是定义</strong>。</p>
-<p>extern用在变量声明中常常有这样一个作用，你在<em>.c文件中声明了一个全局的变量，这个全局的变量如果要被引用，就放在</em>.h中并用extern来声明。</p>
-<h1 id="具体解释及示例"><a href="#具体解释及示例" class="headerlink" title=".具体解释及示例"></a>.具体解释及示例</h1><p>2.1.extern的变量和函数声明<br>extern用于修饰变量或函数，用于声明当前变量或函数可以在本模块或者其他模块中使用。不过要记住的是extern只是声明，而不是定义，也就是说extern并不分配空间。而这个查找的过程是在连接的过程中进行的，因此编译阶段虽然找不到该变量或函数，但是也不会报错。下面用三个例子来看一看。</p>
-<p>（1）无extern声明，有变量定义。</p>
-<pre><code>stdafx.cpp
-
-
-#include &quot;stdafx.h&quot;
-int g_test;
-main.cpp
-
-int _tmain(int argc, _TCHAR* argv[])
-{
-    g_test=2;
-    std::cout&lt;&lt;g_test;
-    return 0;
-}</code></pre><p>提示错误，因为此时main中不能调用到g_test。<br>1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(25) : error C2065: “g_test”: 未声明的标识符<br>1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(26) : error C2065: “g_test”: 未声明的标识符</p>
-<p>（2）有extern声明，无变量定义。</p>
-<pre><code>stdafx.h
-
-
-extern int g_test;
-main.cpp
-
-int _tmain(int argc, _TCHAR* argv[])
-{
-    g_test=2;
-    std::cout&lt;&lt;g_test;
-    return 0;
-}</code></pre><p>提示错误，因为extern只是声明，并没有定义，也就没有空间的分配，而这时一个链接错误，编译的时候没办法发现。<br>1&gt;TestCpp.obj : error LNK2001: 无法解析的外部符号 “int g_test” (?g_test@@3HA)<br>1&gt;D:\Microsoft Visual Studio 9.0\Projects\TestCpp\Debug\TestCpp.exe : fatal error LNK1120: 1 个无法解析的外部命令</p>
-<p>（3）有extern声明，也有变量定义。</p>
-<pre><code>stdafx.cpp
-
-
-#include &quot;stdafx.h&quot;
-int g_test;
-stdafx.h
-extern int g_test;
-main.cpp
-int _tmain(int argc, _TCHAR* argv[])
-{
-    g_test=2;
-    std::cout&lt;&lt;g_test;
-    return 0;
-}</code></pre><p>程序执行正常。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/static关键字/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/static关键字/" itemprop="url">static关键字</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:57:09+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>@[toc]</p>
-<h1 id="静态全局变量"><a href="#静态全局变量" class="headerlink" title="静态全局变量"></a>静态全局变量</h1><ol>
-<li>在全局变量前面，加上关键字 static  ，该变量就成为一个静态全局变量<br>特点：</li>
-<li>1 在全局数据区分配内存</li>
-<li>2 未经初始化的静态全局变量会被程序自动初始化为0（自动变量的值 是随机的，除非它被显式初始化）</li>
-<li>3 <strong>静态全局变量在声明它的整个文件都是可见的，而在文件之外是不可见。</strong></li>
-</ol>
-<p>理解： 避免变量 命名冲突，和其他文件中变量相撞。</p>
-<pre><code>//Example 2
-//File1
-#include &lt;iostream.h&gt;
-void fn();
-static int n; //定义静态全局变量
-void main()
-{
- 　　n=20;
- 　　cout&lt;&lt;n&lt;&lt;endl;
- 　　fn();
-}
-
-//File2
-#include &lt;iostream.h&gt;
-extern int n;
-void fn()
-{
-　　 n++;
- 　　cout&lt;&lt;n&lt;&lt;endl;
-}</code></pre><p>编译并运行Example 2，您就会发现上述代码可以分别通过编译，但运行时出现错误。试着将 “static int n; //定义静态全局变量”改为 “int n; //定义全局变量”<br>再次编译运行程序，细心体会“全局变量”和”静态全局变量”的区别。</p>
-<h1 id="静态局部变量"><a href="#静态局部变量" class="headerlink" title="静态局部变量"></a>静态局部变量</h1><p>特点：</p>
-<ol>
-<li>静态局部变量 在全局数据区分配内存</li>
-<li>静态局部变量在程序执行到该对象的声明处时，被第一次初始化，即 以后的函数调用不在进行初始化。</li>
-<li>静态局部变量一般在声明处初始化，如果没有显式初始化，会被程序自动初始化为0</li>
-<li>会始终驻留在 全局数据区，直到程序运行结束，但其作用域为局部作用域，当定义它的函数或者语句块结束时，其作用域随之结束。</li>
-</ol>
-<p>通常，在函数体内定义了一个变量，每当程序运行到该语句时都会给该局部变量分配栈内存。但随着程序退出函数体，系统就会收回栈内存，局部变量也相应失效。但有时候我们需要在两次调用之间对变量的值进行保存。通常的想法是定义一个全局变量来实现。但这样一来，变量已经不再属于函数本身了，不再仅受函数的控制，给程序的维护带来不便。<br>静态局部变量正好可以解决这个问题。静态局部变量保存在全局数据区，而不是保存在栈中，每次的值保持到下一次调用，直到下次赋新值。 </p>
-<p>理解：静态全局变量 维护 比 静态局部变量维护开销大?<br>static 默认进行初始化为0，并且数据是放在全局数据区中的。两次函数调用就可以对同一个变量进行操作。</p>
-<h1 id="静态函数"><a href="#静态函数" class="headerlink" title="静态函数"></a>静态函数</h1><ol>
-<li>只能在声明它的文件中可用，其他文件不能被使用 ，从而避免命名冲突</li>
-</ol>
-<h1 id="类中的static-关键字"><a href="#类中的static-关键字" class="headerlink" title="类中的static 关键字"></a>类中的static 关键字</h1><h2 id="静态数据成员"><a href="#静态数据成员" class="headerlink" title="静态数据成员"></a>静态数据成员</h2><p>非静态数据成员，会存在多份拷贝，<br>静态数据成员，会存在一份拷贝，由该类型的所有对象共享访问。所以静态成员的值对每个对象都是一样的，它的值可以更新，</p>
-<p><strong><em>静态数据成员存储在全局数据区。静态数据成员定义时要分配空间，所以不能在类声明中定义。</em></strong></p>
-<p> 静态数据成员和普通数据成员一样遵从public,protected,private访问规则； </p>
-<p><strong><em>实现信息隐藏</em></strong>，<strong><em>静态数据成员可以是private成员，而全局变量不可以</em></strong></p>
-<h2 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h2><p>普通函数拥有this 指针 会指向对象本身、<br>但是与普通函数相比，静态成员函数由于不是与任何的对象相联系，因此不具有this 指针。</p>
-<p>从而更进一步说，它无法访问属于类对象的非静态数据成员，也无法访问非静态成员函数，只能调用其余的<strong>静态成员函数</strong>。</p>
-<pre><code>#include &lt;iostream.h&gt;
-class Myclass
-{
-public:
- 　　Myclass(int a,int b,int c);
- 　　static void GetSum();/声明静态成员函数
-private:
- 　　int a,b,c;
-　　 static int Sum;//声明静态数据成员
-};
-int Myclass::Sum=0;//定义并初始化静态数据成员
-
-Myclass::Myclass(int a,int b,int c)
-{
- 　　this-&gt;a=a;
- 　　this-&gt;b=b;
- 　　this-&gt;c=c;
- 　　Sum+=a+b+c; //非静态成员函数可以访问静态数据成员
-}
-
-void Myclass::GetSum() //静态成员函数的实现
-{
-　　// cout&lt;&lt;a&lt;&lt;endl; //错误代码，a是非静态数据成员
- 　　cout&lt;&lt;&quot;Sum=&quot;&lt;&lt;Sum&lt;&lt;endl;
-}
-
-void main()
-{
- 　　Myclass M(1,2,3);
- 　　M.GetSum();
- 　　Myclass N(4,5,6);
- 　　N.GetSum();
- 　　Myclass::GetSum();
-}</code></pre><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
-<li>非静态成员函数可以任意访问静态成员函数和静态数据成员。</li>
-<li>静态成员函数不能访问非静态成员函数和非静态数据成员。（因为没有this 指针）</li>
-<li>由于没有this 指针的额外开销，静态成员函数与类的全局函数相比速度会有少许的增长。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/单例模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/单例模式/" itemprop="url">单例模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:55:22+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">class singleton&#123;</span><br><span class="line">private:</span><br><span class="line">    static volatile singleton *p;</span><br><span class="line">    static pthread_mutex_t mtx;</span><br><span class="line">    singleton()&#123;&#125;</span><br><span class="line">public:</span><br><span class="line">    static singleton * getInstance();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">singleton * singleton::p = NULL;</span><br><span class="line">pthread_mutex_t singleton::mtx;</span><br><span class="line"></span><br><span class="line">singleton * singleton::getInstance()&#123;</span><br><span class="line">    if (p == NULL)&#123;</span><br><span class="line">        pthread_mutex_lock(&amp;mtx);</span><br><span class="line">        if (p == NULL)  p = new singleton;</span><br><span class="line">        pthread_mutex_unlock(&amp;mtx);</span><br><span class="line">    &#125;</span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    singleton * ptr = singleton::getInstance();</span><br><span class="line">    singleton * ptr1 = singleton::getInstance();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/git子模块/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/git子模块/" itemprop="url">git子模块</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:44:09+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97" target="_blank" rel="noopener">https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97</a></p>
-<pre><code>git submodule init ;
-git submodule update;
-git checkout master ; 
-git submodule foreach git checkout master ; 
-git pull ; 
-git submodule foreach git pull</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/article-title/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/article-title/" itemprop="url">article title</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:22:18+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Terry">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/my.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Terry’s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/08/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:13:05+08:00">
-                2019-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1714,7 +1711,7 @@ git submodule foreach git pull</code></pre>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1727,7 +1724,7 @@ git submodule foreach git pull</code></pre>
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -1805,6 +1802,26 @@ git submodule foreach git pull</code></pre>
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
 
 

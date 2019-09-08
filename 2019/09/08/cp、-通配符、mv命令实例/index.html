@@ -81,16 +81,23 @@
 
 
 
-<meta name="description" content="我爱代码，张静怎么办？">
-<meta property="og:type" content="website">
+<meta name="description" content="title: cp、 通配符、mv命令实例date: 2019-09-08 14:12:14tags: linux  cp mv 通配符   关于linux 的基础知识，包括文件系统和一些简单的指令http://billie66.github.io/TLCL/book/index.html">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Terry’s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/git/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/cp、-通配符、mv命令实例/index.html">
 <meta property="og:site_name" content="Terry’s Blog">
-<meta property="og:description" content="我爱代码，张静怎么办？">
+<meta property="og:description" content="title: cp、 通配符、mv命令实例date: 2019-09-08 14:12:14tags: linux  cp mv 通配符   关于linux 的基础知识，包括文件系统和一些简单的指令http://billie66.github.io/TLCL/book/index.html">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190628152345979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190628152507702.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190628152012469.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190628152047129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190628152110920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-08T06:12:46.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Terry’s Blog">
-<meta name="twitter:description" content="我爱代码，张静怎么办？">
+<meta name="twitter:description" content="title: cp、 通配符、mv命令实例date: 2019-09-08 14:12:14tags: linux  cp mv 通配符   关于linux 的基础知识，包括文件系统和一些简单的指令http://billie66.github.io/TLCL/book/index.html">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190628152345979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70">
 
 
 
@@ -120,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/git/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/08/cp、-通配符、mv命令实例/">
 
 
 
 
 
-  <title>Tag: git | Terry’s Blog</title>
+  <title> | Terry’s Blog</title>
   
 
 
@@ -145,7 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -281,78 +288,159 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>git<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/cp、-通配符、mv命令实例/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/09/08/git-fork-别人的项目后再同步/" itemprop="url">
-              
-                <span itemprop="name">git fork 别人的项目后再同步</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T13:06:03+08:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T14:12:14+08:00">
+                2019-09-08
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/08/git子模块/" itemprop="url">
-              
-                <span itemprop="name">git子模块</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T12:44:09+08:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <hr>
+<p>title: cp、 通配符、mv命令实例<br>date: 2019-09-08 14:12:14<br>tags: linux</p>
+<hr>
+<h1 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h1><p><img src="https://img-blog.csdnimg.cn/20190628152345979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="mv"><a href="#mv" class="headerlink" title="mv"></a>mv</h1><p><img src="https://img-blog.csdnimg.cn/20190628152507702.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h1><p><img src="https://img-blog.csdnimg.cn/20190628152012469.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190628152047129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190628152110920.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<hr>
+<p>关于linux 的基础知识，包括文件系统和一些简单的指令<br><a href="http://billie66.github.io/TLCL/book/index.html" target="_blank" rel="noopener">http://billie66.github.io/TLCL/book/index.html</a></p>
+<hr>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/08/符号链接和硬链接/" rel="next" title="符号链接和硬链接">
+                <i class="fa fa-chevron-left"></i> 符号链接和硬链接
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/08/启动zookeeper成功查看状态时却显示It-is-probably-not-running/" rel="prev" title="启动zookeeper成功查看状态时却显示It is probably not running">
+                启动zookeeper成功查看状态时却显示It is probably not running <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -360,6 +448,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -380,8 +472,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -451,6 +552,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cp"><span class="nav-number">1.</span> <span class="nav-text">cp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mv"><span class="nav-number">2.</span> <span class="nav-text">mv</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通配符"><span class="nav-number">3.</span> <span class="nav-text">通配符</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -611,6 +728,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
