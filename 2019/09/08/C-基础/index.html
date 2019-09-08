@@ -81,7 +81,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="C++,">
 
 
 
@@ -94,16 +94,18 @@
 
 
 
-<meta name="description" content="我爱代码，张静怎么办？">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Terry Blog">
-<meta property="og:url" content="http://yoursite.com/tags/git/index.html">
+<meta name="description" content="1. C++ 中四种类型转换const_cast用于静态和非静态之间的转换讲const 类型转化成非const类型 dynamic_cast动态转化，只能用于虚函数    的类，用于类层次间向上或者向下转化，只能转化指针或者引用。 什么是向上转化？子类转成基类 什么是向下转化？基类转成子类 static_ cast用于各种隐士类型转化，比如非const 转成const、void*转换成指针等，能用">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++基础">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/C-基础/index.html">
 <meta property="og:site_name" content="Terry Blog">
-<meta property="og:description" content="我爱代码，张静怎么办？">
+<meta property="og:description" content="1. C++ 中四种类型转换const_cast用于静态和非静态之间的转换讲const 类型转化成非const类型 dynamic_cast动态转化，只能用于虚函数    的类，用于类层次间向上或者向下转化，只能转化指针或者引用。 什么是向上转化？子类转成基类 什么是向下转化？基类转成子类 static_ cast用于各种隐士类型转化，比如非const 转成const、void*转换成指针等，能用">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-08T11:49:19.882Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Terry Blog">
-<meta name="twitter:description" content="我爱代码，张静怎么办？">
+<meta name="twitter:title" content="C++基础">
+<meta name="twitter:description" content="1. C++ 中四种类型转换const_cast用于静态和非静态之间的转换讲const 类型转化成非const类型 dynamic_cast动态转化，只能用于虚函数    的类，用于类层次间向上或者向下转化，只能转化指针或者引用。 什么是向上转化？子类转成基类 什么是向下转化？基类转成子类 static_ cast用于各种隐士类型转化，比如非const 转成const、void*转换成指针等，能用">
 
 
 
@@ -133,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/git/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/08/C-基础/">
 
 
 
 
 
-  <title>Tag: git | Terry Blog</title>
+  <title>C++基础 | Terry Blog</title>
   
 
 
@@ -158,7 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
 	<a href="https://github.com/shaoyeGithub" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -296,78 +298,262 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>git<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/C-基础/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/09/08/git-fork-别人的项目后再同步/" itemprop="url">
-              
-                <span itemprop="name">git fork 别人的项目后再同步</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">C++基础</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T13:06:03+08:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T19:43:06+08:00">
+                2019-09-08
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h1 id="1-C-中四种类型转换"><a href="#1-C-中四种类型转换" class="headerlink" title="1. C++ 中四种类型转换"></a>1. C++ 中四种类型转换</h1><h2 id="const-cast"><a href="#const-cast" class="headerlink" title="const_cast"></a>const_cast</h2><p>用于静态和非静态之间的转换<br>讲const 类型转化成非const类型</p>
+<h2 id="dynamic-cast"><a href="#dynamic-cast" class="headerlink" title="dynamic_cast"></a>dynamic_cast</h2><p>动态转化，只能用于<strong>虚函数</strong>    的类，用于类层次间向上或者向下转化，只能转化<strong>指针或者引用</strong>。</p>
+<h3 id="什么是向上转化？"><a href="#什么是向上转化？" class="headerlink" title="什么是向上转化？"></a>什么是向上转化？</h3><p>子类转成基类</p>
+<h3 id="什么是向下转化？"><a href="#什么是向下转化？" class="headerlink" title="什么是向下转化？"></a>什么是向下转化？</h3><p>基类转成子类</p>
+<h2 id="static-cast"><a href="#static-cast" class="headerlink" title="static_ cast"></a>static_ cast</h2><p>用于各种隐士类型转化，比如非const 转成const、void*转换成指针等，能用于多台的向上转化，假如是向下转化就是可能会不安全。（为什么？）</p>
+<h2 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a>reinterpret_cast</h2><p>几乎什么都可以转，比如讲int 转成指针，可能会出问题，尽量少用。</p>
+<h1 id="2-C-中四个智能指针"><a href="#2-C-中四个智能指针" class="headerlink" title="2. C++ 中四个智能指针"></a>2. C++ 中四个智能指针</h1><h2 id="为什么要使用智能指针？"><a href="#为什么要使用智能指针？" class="headerlink" title="为什么要使用智能指针？"></a>为什么要使用智能指针？</h2><p>智能指针主要用于解决指针未释放，内存泄漏的问题。首先智能指针就是一个类。当类的作用域结束后，会调用相关的析构函数去释放空间，从而解决内存泄漏问题。</p>
+<h2 id="2-1-auto-ptr"><a href="#2-1-auto-ptr" class="headerlink" title="2.1 auto_ptr"></a>2.1 auto_ptr</h2><p>auto_ptr 可能会存在内存崩溃的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">auto_ptr&lt; string&gt; p1 (new string (&quot;I reigned lonely as a cloud.”));</span><br><span class="line">auto_ptr&lt;string&gt; p2;</span><br><span class="line">p2 = p1; //auto_ptr不会报错.</span><br></pre></td></tr></table></figure>
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/09/08/git子模块/" itemprop="url">
-              
-                <span itemprop="name">git子模块</span>
-              
-            </a>
-        
-      </h2>
+<p>p2剥夺了p1的所有权，但是当程序运行时访问p1，会报错。</p>
+<h2 id="2-2-unique-ptr（替换auto-ptr）"><a href="#2-2-unique-ptr（替换auto-ptr）" class="headerlink" title="2.2 unique_ptr（替换auto_ptr）"></a>2.2 unique_ptr（替换auto_ptr）</h2><p>实现独占式拥有或严格拥有概念。保证同一时间只有一个智能指针用于该对象。<br>它对于避免资源泄露(例如“以new创建对象后因为发生异常而忘记调用delete”)特别有用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;string&gt; p3 (new string (&quot;auto&quot;));   //#4</span><br><span class="line">unique_ptr&lt;string&gt; p4；                       //#5</span><br><span class="line">p4 = p3;//此时会报错！！</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-08T12:44:09+08:00" content="2019-09-08">
-          09-08
-        </time>
-      </div>
+<p>编译器认为p4=p3非法，避免了p3不再指向有效数据的问题。因此，unique_ptr比auto_ptr更安全。<br>另外unique_ptr还有更聪明的地方：当程序试图将一个 unique_ptr 赋值给另一个时，如果源 unique_ptr 是个临时右值，编译器允许这么做；如果源 unique_ptr 将存在一段时间，编译器将禁止这么做，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;string&gt; pu1(new string (&quot;hello world&quot;));</span><br><span class="line">unique_ptr&lt;string&gt; pu2;</span><br><span class="line">pu2 = pu1;                                      // #1 not allowed</span><br><span class="line">unique_ptr&lt;string&gt; pu3;</span><br><span class="line">pu3 = unique_ptr&lt;string&gt;(new string (&quot;You&quot;));   // #2 allowed</span><br></pre></td></tr></table></figure>
 
-    </header>
-  </article>
+<p>注：如果确实想执行类似与#1的操作，要安全的重用这种指针，可给它赋新值。C++有一个标准库函数std::move()，让你能够将一个unique_ptr赋给另一个。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;string&gt; ps1, ps2;</span><br><span class="line">ps1 = demo(&quot;hello&quot;);</span><br><span class="line">ps2 = move(ps1);</span><br><span class="line">ps1 = demo(&quot;alexia&quot;);</span><br><span class="line">cout &lt;&lt; *ps2 &lt;&lt; *ps1 &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
 
-
+<h2 id="2-3-shared-ptr"><a href="#2-3-shared-ptr" class="headerlink" title="2.3 shared_ptr"></a>2.3 shared_ptr</h2><p>shared_ptr实现<strong>共享式拥有</strong>概念。多个智能指针可以指向相同对象，该对象和其相关资源会在“最后一个引用被销毁”时候释放。从名字share就可以看出了资源可以被多个指针共享，它使用计数机制来表明资源被几个指针共享。可以通过成员函数 <strong><em>use_count()</em></strong> 来查看资源的所有者个数。除了可以通过new来构造，还可以通过传入auto_ptr, unique_ptr,weak_ptr来构造。当我们调用 <strong><em>release()</em></strong> 时，当前指针会释放资源所有权，计数<strong>减一</strong>。当计数等于0时，资源会被释放</p>
+<p>成员函数：</p>
+<blockquote>
+<p>use_count 返回引用计数的个数<br><strong>unique</strong> 返回是否是独占所有权( use_count 为 1)<br>swap 交换两个 shared_ptr 对象(即交换所拥有的对象)<br>reset 放弃内部对象的所有权或拥有对象的变更, 会引起原有对象的引用计数的减少<br>get 返回内部对象(指针), 由于已经重载了()方法, 因此和直接使用对象是一样的.如 shared_ptr<int> sp(new int(1)); sp 与 sp.get()是等价的</int></p>
+</blockquote>
+<h2 id="2-4-weak-ptr"><a href="#2-4-weak-ptr" class="headerlink" title="2.4 weak_ptr"></a>2.4 weak_ptr</h2><p>weak_ptr 是一种<strong>不控制对象生命周期</strong>的智能指针, 它指向一个 <strong>shared_ptr</strong> 管理的对象. 进行该对象的内存管理的是那个强引用的 shared_ptr. weak_ptr只是提供了对管理对象的一个访问手段。</p>
+<p>weak_ptr 设计的目的是为配合 shared_ptr 而引入的一种智能指针来协助 shared_ptr 工作, 它只可以从一个 shared_ptr 或另一个 weak_ptr 对象构造, <strong>它的构造和析构不会引起引用记数的增加或减少</strong>。</p>
+<p>weak_ptr是用来<strong>解决shared_ptr相互引用时的死锁问题</strong>,如果说两个shared_ptr相互引用,那么这两个指针的引用计数永远不可能下降为0,资源永远不会释放。它是对对象的一种弱引用，不会增加对象的引用计数，和shared_ptr之间可以相互转化，shared_ptr可以直接赋值给它，<strong>它可以通过调用lock函数来获得shared_ptr。</strong></p>
+<p>可以看到fun函数中pa ，pb之间互相引用，两个资源的引用计数为2，当要跳出函数时，智能指针pa，pb析构时两个资源引用计数会减一，但是两者引用计数还是为1，导致跳出函数时资源没有被释放（A B的析构函数没有被调用），如果把其中一个改为weak_ptr就可以了，我们把类A里面的shared_ptr pb_; 改为weak_ptr pb_; 运行结果如下，这样的话，资源B的引用开始就只有1，当pb析构时，B的计数变为0，B得到释放，B释放的同时也会使A的计数减一，同时pa析构时使A的计数减一，那么A的计数为0，A得到释放。</p>
+<p>注意的是我们不能通过weak_ptr直接访问对象的方法，比如B对象中有一个方法print(),我们不能这样访问，pa-&gt;pb_-&gt;print(); 英文pb_是一个weak_ptr，应该先把它转化为shared_ptr,如：shared_ptr p = pa-&gt;pb_.lock(); p-&gt;print();</p>
+<h2 id="3-什么是野指针？"><a href="#3-什么是野指针？" class="headerlink" title="3. 什么是野指针？"></a>3. 什么是野指针？</h2><p>野指针就是指向一个已经删除的对象，或者未申请访问受限内存区域的指针。</p>
+<h2 id="4-请你回答一下为什么析构函数必须是虚函数？为什么C-默认的析构函数不是虚函数-考点-虚函数-析构函数"><a href="#4-请你回答一下为什么析构函数必须是虚函数？为什么C-默认的析构函数不是虚函数-考点-虚函数-析构函数" class="headerlink" title="4. 请你回答一下为什么析构函数必须是虚函数？为什么C++默认的析构函数不是虚函数 考点:虚函数 析构函数"></a>4. 请你回答一下为什么析构函数必须是虚函数？为什么C++默认的析构函数不是虚函数 考点:虚函数 析构函数</h2><p>将可能会被继承的父类的析构函数设置为虚函数，可以保证当我们new一个子类，然后使用基类指针指向该子类对象，释放基类指针时可以释放掉子类的空间，防止内存泄漏。</p>
+<p>C++默认的析构函数不是虚函数是因为虚函数需要额外的虚函数表和虚表指针，占用额外的内存。而对于不会被继承的类来说，其析构函数如果是虚函数，就会浪费内存。因此C++默认的析构函数不是虚函数，而是只有当需要当作父类时，设置为虚函数。</p>
+<h1 id="5-fork-函数"><a href="#5-fork-函数" class="headerlink" title="5. fork() 函数"></a>5. fork() 函数</h1><p>成功调用fork 函数会创建一个新的进程，它几乎与调用fork进程（）一模一样，两个进程都会继续进行，在子进程中，fork调用会返回0，在父进程中，fork（）调用会<strong>子进程的pid</strong>，如果出现错误，fork返回一个 负值。</p>
+<p>最常见的fork( )用法是创建一个新的进程，然后使用exec( )载入二进制映像，替换当前进程的映像。这种情况下，派生（fork）了新的进程，而这个子进程会执行一个新的二进制可执行文件的映像。这种“派生加执行”的方式是很常见的。</p>
+<h1 id="6-请你说一说strcpy和strlen"><a href="#6-请你说一说strcpy和strlen" class="headerlink" title="6. 请你说一说strcpy和strlen"></a>6. 请你说一说strcpy和strlen</h1><p>strcpy是字符串拷贝函数，原型：<br>char <em>strcpy(char</em> dest, const char *src);</p>
+<p>从src逐字节拷贝到dest，直到遇到’\0’结束，因为没有指定长度，可能会导致拷贝越界，造成缓冲区溢出漏洞,安全版本是strncpy函数。<br>strlen函数是计算字符串长度的函数，返回从开始到’\0’之间的字符个数。</p>
+<h1 id="7-在main函数之前执行"><a href="#7-在main函数之前执行" class="headerlink" title="7. 在main函数之前执行"></a>7. 在main函数之前执行</h1><pre><code>__attribute((constructor))void before()
+{
+    printf(&quot;before main\n&quot;);
+}</code></pre><h1 id="8-智能指针shared-ptr的实现"><a href="#8-智能指针shared-ptr的实现" class="headerlink" title="8. 智能指针shared_ptr的实现"></a>8. 智能指针shared_ptr的实现</h1>
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    Terry
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://yoursite.com/2019/09/08/C-基础/" title="C++基础">http://yoursite.com/2019/09/08/C-基础/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/08/排序/" rel="next" title="排序">
+                <i class="fa fa-chevron-left"></i> 排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -375,6 +561,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -395,8 +585,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -475,6 +674,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-C-中四种类型转换"><span class="nav-number">1.</span> <span class="nav-text">1. C++ 中四种类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#const-cast"><span class="nav-number">1.1.</span> <span class="nav-text">const_cast</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dynamic-cast"><span class="nav-number">1.2.</span> <span class="nav-text">dynamic_cast</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是向上转化？"><span class="nav-number">1.2.1.</span> <span class="nav-text">什么是向上转化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是向下转化？"><span class="nav-number">1.2.2.</span> <span class="nav-text">什么是向下转化？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static-cast"><span class="nav-number">1.3.</span> <span class="nav-text">static_ cast</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reinterpret-cast"><span class="nav-number">1.4.</span> <span class="nav-text">reinterpret_cast</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-C-中四个智能指针"><span class="nav-number">2.</span> <span class="nav-text">2. C++ 中四个智能指针</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要使用智能指针？"><span class="nav-number">2.1.</span> <span class="nav-text">为什么要使用智能指针？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-auto-ptr"><span class="nav-number">2.2.</span> <span class="nav-text">2.1 auto_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-unique-ptr（替换auto-ptr）"><span class="nav-number">2.3.</span> <span class="nav-text">2.2 unique_ptr（替换auto_ptr）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-shared-ptr"><span class="nav-number">2.4.</span> <span class="nav-text">2.3 shared_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-weak-ptr"><span class="nav-number">2.5.</span> <span class="nav-text">2.4 weak_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-什么是野指针？"><span class="nav-number">2.6.</span> <span class="nav-text">3. 什么是野指针？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-请你回答一下为什么析构函数必须是虚函数？为什么C-默认的析构函数不是虚函数-考点-虚函数-析构函数"><span class="nav-number">2.7.</span> <span class="nav-text">4. 请你回答一下为什么析构函数必须是虚函数？为什么C++默认的析构函数不是虚函数 考点:虚函数 析构函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-fork-函数"><span class="nav-number">3.</span> <span class="nav-text">5. fork() 函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-请你说一说strcpy和strlen"><span class="nav-number">4.</span> <span class="nav-text">6. 请你说一说strcpy和strlen</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-在main函数之前执行"><span class="nav-number">5.</span> <span class="nav-text">7. 在main函数之前执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-智能指针shared-ptr的实现"><span class="nav-number">6.</span> <span class="nav-text">8. 智能指针shared_ptr的实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -644,6 +859,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
