@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[daemon 进程为什么要fork两次，与后台运行程序区别？]]></title>
+    <url>%2F2019%2F09%2F08%2Fdaemon-%E8%BF%9B%E7%A8%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81fork%E4%B8%A4%E6%AC%A1%EF%BC%8C%E4%B8%8E%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%8C%BA%E5%88%AB%EF%BC%9F%2F</url>
+    <content type="text"><![CDATA[daemon进程是后台守护进程daemon函数存在的原因是因为控制终端由于某些原因（如断开终端链接）会发送一些信号的原因。而接收进程处理这些信号缺省动作会让进程退出。这些信号会由于终端上敲一些特殊按键而产生。 12345678910111213141516171819202122232425int daemon(void)&#123; pid_t pid = fork(); if( pid != 0 ) exit(0);//parent //first children if(setsid() == -1) &#123; printf(&quot;setsid failed\n&quot;); assert(0); exit(-1); &#125; umask(0); pid = fork(); if( pid != 0) exit(0); //second children chdir (&quot;/&quot;); for (int i = 0; i &lt; 3; i++) &#123; close (i); &#125; int stdfd = open (&quot;/dev/null&quot;, O_RDWR); dup2(stdfd, STDOUT_FILENO); dup2(stdfd, STDERR_FILENO); return 0;&#125; 第一次fork 的作用 是让shell 认为本条命令已经终止，不用挂在终端输入上。还有一个作用是为后面setsid服务。setsid的调用者不能让进程组组长（group leader）.此时父进程是进程组长。 setsid() 是本函数最重要的一个调用。它完成了daemon函数想要做的大部分事情。调用完整个函数。子进程是会话组长(sid==pid)，也是进程组组长(pgid == pid)，并且脱离了原来控制终端。到了这一步，基本上不管控制终端如何怎么样。新的进程都不会收到那些信号。 经过前面2个步骤，基本想要做的都做了。第2次fork不是必须的。也看到很多开源服务没有fork第二次。fork第二次主要目的是。防止进程再次打开一个控制终端。因为打开一个控制终端的前提条件是该进程必须是会话组长。再fork一次，子进程ID != sid（sid是进程父进程的sid）。所以也无法打开新的控制终端。 daemon目的就是防止终端产生的一些信号让进程退出。上面函数并没有直接调用signal函数去处理它。而是间接通过fork和setsid函数使用更少代码优雅处理。而被有些人误以为是僵死进程的原因需要这样处理。 守护进程与用&amp;结尾的后台运行程序有什么区别呢？最大的区别有几点：1)守护进程已经完全脱离终端控制台了，而后台程序并未完全脱离终端，在终端未关闭前还是会往终端输出结果2)守护进程在关闭终端控制台时不会受影响，而后台程序会随用户退出而停止，需要在以nohug xxx &amp; 格式运行才能避免影响3)守护进程的会话组和当前目录，文件描述符都是独立的。后台运行只是终端进行了一次fork，让程序在后台执行，这些都没改变。]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git fork 别人的项目后再同步]]></title>
+    <url>%2F2019%2F09%2F08%2Fgit-fork-%E5%88%AB%E4%BA%BA%E7%9A%84%E9%A1%B9%E7%9B%AE%E5%90%8E%E5%86%8D%E5%90%8C%E6%AD%A5%2F</url>
+    <content type="text"><![CDATA[123456git remote add upstream fork的原始git 地址git remote -v ;git fetch upstream; git merge upstream/master;git pull origin master;git push git remote -v //可以查看 添加后的分支状态 git fetch upstream //从原始仓库更新同步代码 git merge upstream/master //合并到本地代码 git pull origin master // 更新合并自己的远程仓库的代码 git push //向自己远程仓库推送刚才同步源仓库后的代码]]></content>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[敏捷开发]]></title>
+    <url>%2F2019%2F09%2F08%2F%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%2F</url>
+    <content type="text"><![CDATA[敏捷开发的定义以用户的需求进化作为核心，采用迭代、循序渐进的方法进行软件开发。 换句话说就是把一个大的项目分为多个相互联系，但也可以独立运行的小项目（story？），并分别完成，在这个过程中软件一直处于可使用的状态。 应用场景和特点在软件项目的构建初期被切分成多个子项目，各个子项目的成果都经过测试，具备可视、可集成和可运行使用的特征。 开发宣言个体和交互 胜过过程和工具 可以工作的软件 胜过 面面俱到的文档 客户合作 胜过 合同谈判 响应变化 胜过 遵循计划注：虽然右项也有价值，但是我们认为左项具有更大的价值。 开发原则 快速迭代 让测试人员和开发者参与需求讨论 编写可测试的需求文档 开始就用“用户故事”（user story）的方法来编写需求文档。 多沟通，尽量减少文档 做好产品原型建议使用草图和模型来阐明用户界面，并不是所有人都可以理解一份复杂的文档，但人人都会看图。 及早考虑测试。]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[、释放命令]]></title>
+    <url>%2F2019%2F09%2F08%2F%E3%80%81%E9%87%8A%E6%94%BE%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[1234567891011free -m 查看内存使用情况echo 1 &gt; /proc/sys/vm/drop_caches // 释放页缓存echo 2 &gt; /proc/sys/vm/drop_caches //释放dentries和inodesecho 3 &gt; /proc/sys/vm/drop_caches // 释放所有缓存到这里内存就释放完了，现在drop_caches中的值为1，如果现在想让操作系统重新分配内存，那么设置drop_caches的值为0即可：echo 0 &gt; /proc/sys/vm/drop_cachesfree m]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[extren关键字]]></title>
+    <url>%2F2019%2F09%2F08%2Fextren%E5%85%B3%E9%94%AE%E5%AD%97%2F</url>
+    <content type="text"><![CDATA[@[toc] 首先 明白 这个单词 是什么意思？Extern : 外部 的意思 用法置于 变量或者函数前，表示变量或者函数的定义在别的文件中，提示 编译器 遇到此变量和函数时，在其他模块中寻找其定义。 作用 主要有两个第一个 ： 与 “C” 一起连用时，如 extern “C” void fun（int a，int b）告诉编译器在编译fun 这个函数名的时候按照C的规则去编译。而不是C++ 第二个： 当extern 不与C 一起修饰变量或函数时。如在头文件中：externa int g_int ;作用是： 声明函数或者全局变量 的作用范围的关键字，声明的函数或者变量可以在本模块或者其他模块中使用。记住，它 是一个声明不是定义。 extern用在变量声明中常常有这样一个作用，你在.c文件中声明了一个全局的变量，这个全局的变量如果要被引用，就放在.h中并用extern来声明。 .具体解释及示例2.1.extern的变量和函数声明extern用于修饰变量或函数，用于声明当前变量或函数可以在本模块或者其他模块中使用。不过要记住的是extern只是声明，而不是定义，也就是说extern并不分配空间。而这个查找的过程是在连接的过程中进行的，因此编译阶段虽然找不到该变量或函数，但是也不会报错。下面用三个例子来看一看。 （1）无extern声明，有变量定义。 stdafx.cpp #include &quot;stdafx.h&quot; int g_test; main.cpp int _tmain(int argc, _TCHAR* argv[]) { g_test=2; std::cout&lt;&lt;g_test; return 0; }提示错误，因为此时main中不能调用到g_test。1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(25) : error C2065: “g_test”: 未声明的标识符1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(26) : error C2065: “g_test”: 未声明的标识符 （2）有extern声明，无变量定义。 stdafx.h extern int g_test; main.cpp int _tmain(int argc, _TCHAR* argv[]) { g_test=2; std::cout&lt;&lt;g_test; return 0; }提示错误，因为extern只是声明，并没有定义，也就没有空间的分配，而这时一个链接错误，编译的时候没办法发现。1&gt;TestCpp.obj : error LNK2001: 无法解析的外部符号 “int g_test” (?g_test@@3HA)1&gt;D:\Microsoft Visual Studio 9.0\Projects\TestCpp\Debug\TestCpp.exe : fatal error LNK1120: 1 个无法解析的外部命令 （3）有extern声明，也有变量定义。 stdafx.cpp #include &quot;stdafx.h&quot; int g_test; stdafx.h extern int g_test; main.cpp int _tmain(int argc, _TCHAR* argv[]) { g_test=2; std::cout&lt;&lt;g_test; return 0; }程序执行正常。]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[static关键字]]></title>
+    <url>%2F2019%2F09%2F08%2Fstatic%E5%85%B3%E9%94%AE%E5%AD%97%2F</url>
+    <content type="text"><![CDATA[@[toc] 静态全局变量 在全局变量前面，加上关键字 static ，该变量就成为一个静态全局变量特点： 1 在全局数据区分配内存 2 未经初始化的静态全局变量会被程序自动初始化为0（自动变量的值 是随机的，除非它被显式初始化） 3 静态全局变量在声明它的整个文件都是可见的，而在文件之外是不可见。 理解： 避免变量 命名冲突，和其他文件中变量相撞。 //Example 2 //File1 #include &lt;iostream.h&gt; void fn(); static int n; //定义静态全局变量 void main() { n=20; cout&lt;&lt;n&lt;&lt;endl; fn(); } //File2 #include &lt;iostream.h&gt; extern int n; void fn() { n++; cout&lt;&lt;n&lt;&lt;endl; }编译并运行Example 2，您就会发现上述代码可以分别通过编译，但运行时出现错误。试着将 “static int n; //定义静态全局变量”改为 “int n; //定义全局变量”再次编译运行程序，细心体会“全局变量”和”静态全局变量”的区别。 静态局部变量特点： 静态局部变量 在全局数据区分配内存 静态局部变量在程序执行到该对象的声明处时，被第一次初始化，即 以后的函数调用不在进行初始化。 静态局部变量一般在声明处初始化，如果没有显式初始化，会被程序自动初始化为0 会始终驻留在 全局数据区，直到程序运行结束，但其作用域为局部作用域，当定义它的函数或者语句块结束时，其作用域随之结束。 通常，在函数体内定义了一个变量，每当程序运行到该语句时都会给该局部变量分配栈内存。但随着程序退出函数体，系统就会收回栈内存，局部变量也相应失效。但有时候我们需要在两次调用之间对变量的值进行保存。通常的想法是定义一个全局变量来实现。但这样一来，变量已经不再属于函数本身了，不再仅受函数的控制，给程序的维护带来不便。静态局部变量正好可以解决这个问题。静态局部变量保存在全局数据区，而不是保存在栈中，每次的值保持到下一次调用，直到下次赋新值。 理解：静态全局变量 维护 比 静态局部变量维护开销大?static 默认进行初始化为0，并且数据是放在全局数据区中的。两次函数调用就可以对同一个变量进行操作。 静态函数 只能在声明它的文件中可用，其他文件不能被使用 ，从而避免命名冲突 类中的static 关键字静态数据成员非静态数据成员，会存在多份拷贝，静态数据成员，会存在一份拷贝，由该类型的所有对象共享访问。所以静态成员的值对每个对象都是一样的，它的值可以更新， 静态数据成员存储在全局数据区。静态数据成员定义时要分配空间，所以不能在类声明中定义。 静态数据成员和普通数据成员一样遵从public,protected,private访问规则； 实现信息隐藏，静态数据成员可以是private成员，而全局变量不可以 静态成员函数普通函数拥有this 指针 会指向对象本身、但是与普通函数相比，静态成员函数由于不是与任何的对象相联系，因此不具有this 指针。 从而更进一步说，它无法访问属于类对象的非静态数据成员，也无法访问非静态成员函数，只能调用其余的静态成员函数。 #include &lt;iostream.h&gt; class Myclass { public: Myclass(int a,int b,int c); static void GetSum();/声明静态成员函数 private: int a,b,c; static int Sum;//声明静态数据成员 }; int Myclass::Sum=0;//定义并初始化静态数据成员 Myclass::Myclass(int a,int b,int c) { this-&gt;a=a; this-&gt;b=b; this-&gt;c=c; Sum+=a+b+c; //非静态成员函数可以访问静态数据成员 } void Myclass::GetSum() //静态成员函数的实现 { // cout&lt;&lt;a&lt;&lt;endl; //错误代码，a是非静态数据成员 cout&lt;&lt;&quot;Sum=&quot;&lt;&lt;Sum&lt;&lt;endl; } void main() { Myclass M(1,2,3); M.GetSum(); Myclass N(4,5,6); N.GetSum(); Myclass::GetSum(); }特点 非静态成员函数可以任意访问静态成员函数和静态数据成员。 静态成员函数不能访问非静态成员函数和非静态数据成员。（因为没有this 指针） 由于没有this 指针的额外开销，静态成员函数与类的全局函数相比速度会有少许的增长。]]></content>
+      <tags>
+        <tag>c++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[单例模式]]></title>
+    <url>%2F2019%2F09%2F08%2F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031#include &lt;stdio.h&gt;#include &lt;pthread.h&gt;#include &lt;unistd.h&gt;#include &lt;stdlib.h&gt;class singleton&#123;private: static volatile singleton *p; static pthread_mutex_t mtx; singleton()&#123;&#125;public: static singleton * getInstance();&#125;;singleton * singleton::p = NULL;pthread_mutex_t singleton::mtx;singleton * singleton::getInstance()&#123; if (p == NULL)&#123; pthread_mutex_lock(&amp;mtx); if (p == NULL) p = new singleton; pthread_mutex_unlock(&amp;mtx); &#125; return p;&#125;int main()&#123; singleton * ptr = singleton::getInstance(); singleton * ptr1 = singleton::getInstance(); return 0;&#125;]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git子模块]]></title>
+    <url>%2F2019%2F09%2F08%2Fgit%E5%AD%90%E6%A8%A1%E5%9D%97%2F</url>
+    <content type="text"><![CDATA[https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97 git submodule init ; git submodule update; git checkout master ; git submodule foreach git checkout master ; git pull ; git submodule foreach git pull]]></content>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[article title]]></title>
+    <url>%2F2019%2F09%2F08%2Farticle-title%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F09%2F08%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+</search>
