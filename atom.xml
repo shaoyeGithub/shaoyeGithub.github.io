@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-09-08T11:49:19.882Z</updated>
+  <updated>2019-09-08T12:10:05.123Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,66 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2019/09/08/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    <id>http://yoursite.com/2019/09/08/二叉树/</id>
+    <published>2019-09-08T12:08:17.137Z</published>
+    <updated>2019-09-08T12:10:05.123Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>title: 二叉树<br>date: 2019-09-08 20:08:17<br>tags: 算法<br>categories: 算法</p><hr><p>二叉树节点间的最大距离（微软面试题）<br><img src="https://img-blog.csdnimg.cn/20190527154008178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>【思路】<br>最大距离有三种情况：</p><ol><li>h 左子树的最大距离</li><li>h 右子树的最大距离</li><li>h 左子树上离 h.left 最远的距离+1（h） + h右子树上离h.right最远的距离</li></ol><pre><code>#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;class Node {public:    int value;    Node* left;    Node* right;    Node(int data) :value(data) {    }};int maxDistance(Node *head){    int record = 0;    return postOrder(head,record);}int postOrder(Node* head, int&amp; record){    if (head == nullptr) {        record = 0;        return 0;    }    int lmax = postOrder(head-&gt;left, record);    int maxfromLeft = record;    int rmax = postOrder(head-&gt;right, record);    int maxfromRight = record;    int curNodeMax = maxfromLeft + 1 + maxfromRight;    record = max(maxfromLeft,maxfromRight)+1;    return max(max(lmax, rmax), curNodeMax);}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;title: 二叉树&lt;br&gt;date: 2019-09-08 20:08:17&lt;br&gt;tags: 算法&lt;br&gt;categories: 算法&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;二叉树节点间的最大距离（微软面试题）&lt;br&gt;&lt;img src=&quot;https://img-blog.c
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Tree的遍历</title>
+    <link href="http://yoursite.com/2019/09/08/Tree%E7%9A%84%E9%81%8D%E5%8E%86/"/>
+    <id>http://yoursite.com/2019/09/08/Tree的遍历/</id>
+    <published>2019-09-08T12:04:40.000Z</published>
+    <updated>2019-09-08T12:07:01.536Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>class Node {public:    int value;    Node *left;    Node *right;    Node(int data):value(data) {    }};</code></pre><h1 id="先序遍历-根-左-右"><a href="#先序遍历-根-左-右" class="headerlink" title="先序遍历 根 左 右"></a>先序遍历 根 左 右</h1><pre><code>void preOrderRecur(Node *head) {    if (head == nullptr)        return;    cout &lt;&lt; head-&gt;value;    preOrderRecur(head-&gt;left);    preOrderRecur(head-&gt;right);}</code></pre><h1 id="中序遍历-左-根-右"><a href="#中序遍历-左-根-右" class="headerlink" title="中序遍历 左 根 右"></a>中序遍历 左 根 右</h1><pre><code>void inOrderRecur(Node *head) {    if (head == nullptr)        return;    inOrderRecur(head-&gt;left);    cout &lt;&lt; head-&gt;value;    inOrderRecur(head-&gt;right);}</code></pre><h1 id="后序遍历-左-右-根"><a href="#后序遍历-左-右-根" class="headerlink" title="后序遍历 左 右 根"></a>后序遍历 左 右 根</h1><pre><code>void posOrderRecur(Node *head){    if (head == nullptr)        return;    posOrderRecur(head-&gt;left);    posOrderRecur(head-&gt;right);    cout &lt;&lt; head-&gt;value;}void preOrderUnRecur(Node* head) {    if (head != nullptr)    {        stack&lt;Node*&gt; stk;        stk.push(head);        while (!stk.empty())        {            head = stk.top();            stk.pop();            cout &lt;&lt; head-&gt;value;            if (head-&gt;right != nullptr)                stk.push(head-&gt;right);            if (head-&gt;left != nullptr)                stk.push(head-&gt;left);        }    }}void inOrderUnRecur(Node* head) {    if (head != nullptr)    {        stack&lt;Node*&gt;  stk;        while (!stk.empty() || head != nullptr)        {            if (head != nullptr)            {                stk.push(head);                head = head-&gt;left;            }            else            {                head = stk.top();                stk.pop();                cout &lt;&lt; head-&gt;value;                head = head-&gt;right;            }        }    }}</code></pre><h1 id="两个栈-s1-s2"><a href="#两个栈-s1-s2" class="headerlink" title="两个栈 s1 s2"></a>两个栈 s1 s2</h1><pre><code>void postOrderUnRecur(Node* head) {    if (head != nullptr)    {        stack&lt;Node*&gt; stk1;        stack&lt;int&gt; stk2;        stk1.push(head);        while (!stk1.empty())        {            head = stk1.top();            stk1.pop();            stk2.push(head-&gt;value);            if (head-&gt;left != nullptr)            {                stk1.push(head-&gt;left);            }            if (head-&gt;right != nullptr)            {                stk1.push(head-&gt;right);            }        }        while (!stk2.empty())        {            cout &lt;&lt; stk2.top();            stk2.pop();        }    }}</code></pre><h1 id="用一个栈"><a href="#用一个栈" class="headerlink" title="用一个栈"></a>用一个栈</h1><pre><code>void postOrderUnRecur(Node* head) {    if (head != nullptr)    {        stack&lt;Node* &gt; stk;        Node* h; // 表示最近弹出并打印的节点        Node* c; // 表示 栈顶节点        stk.push(head);        h = head;        c = nullptr;        while (!stk.empty())        {            c = stk.top();            if (h != c-&gt;left &amp;&amp; h != c-&gt;right &amp;&amp; c-&gt;left != nullptr)            {                stk.push(c-&gt;left);            }            else if (c-&gt;right != nullptr &amp;&amp; h != c-&gt;right)                stk.push(c-&gt;right);            else            {                cout &lt;&lt; stk.top()-&gt;value;                stk.pop();                h = c;            }        }    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt;class Node {
+public:
+    int value;
+    Node *left;
+    Node *right;
+
+    Node(int data):value(data) {
+
+    }
+};&lt;/code&gt;&lt;/pre&gt;&lt;h1 
+      
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>C++基础</title>
@@ -487,47 +547,6 @@
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>git子模块</title>
-    <link href="http://yoursite.com/2019/09/08/git%E5%AD%90%E6%A8%A1%E5%9D%97/"/>
-    <id>http://yoursite.com/2019/09/08/git子模块/</id>
-    <published>2019-09-08T04:44:09.000Z</published>
-    <updated>2019-09-08T06:58:49.590Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97" target="_blank" rel="noopener">https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97</a></p><pre><code>git submodule init ;git submodule update;git checkout master ; git submodule foreach git checkout master ; git pull ; git submodule foreach git pull</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;a href=&quot;https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://git-sc
-      
-    
-    </summary>
-    
-    
-      <category term="git" scheme="http://yoursite.com/categories/git/"/>
-    
-    
-      <category term="git" scheme="http://yoursite.com/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>article title</title>
-    <link href="http://yoursite.com/2019/09/08/article-title/"/>
-    <id>http://yoursite.com/2019/09/08/article-title/</id>
-    <published>2019-09-08T04:22:18.000Z</published>
-    <updated>2019-09-08T04:22:18.418Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
     
   </entry>
   
