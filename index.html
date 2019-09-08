@@ -229,6 +229,876 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/git-fork-别人的项目后再同步/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/git-fork-别人的项目后再同步/" itemprop="url">git fork 别人的项目后再同步</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:06:03+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream  fork的原始git 地址</span><br><span class="line">git remote -v ;</span><br><span class="line">git fetch upstream;                    </span><br><span class="line">git merge upstream/master;</span><br><span class="line">git pull origin master;</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<pre><code>git remote -v                               //可以查看 添加后的分支状态
+git fetch upstream                    //从原始仓库更新同步代码
+git merge upstream/master            //合并到本地代码
+git pull origin master   // 更新合并自己的远程仓库的代码
+git push                   //向自己远程仓库推送刚才同步源仓库后的代码</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/敏捷开发/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/敏捷开发/" itemprop="url">敏捷开发</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:04:46+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="敏捷开发的定义"><a href="#敏捷开发的定义" class="headerlink" title="敏捷开发的定义"></a>敏捷开发的定义</h1><p>以<strong>用户的需求进化</strong>作为核心，采用迭代、循序渐进的方法进行软件开发。</p>
+<p>换句话说就是把一个大的项目分为多个相互联系，但也可以独立运行的小项目（story？<br>），并分别完成，在这个过程中软件一直处于<strong>可使用</strong>的状态。</p>
+<h1 id="应用场景和特点"><a href="#应用场景和特点" class="headerlink" title="应用场景和特点"></a>应用场景和特点</h1><p>在软件项目的构建初期被切分成多个子项目，各个子项目的成果都经过测试，具备可视、可集成和可运行使用的特征。</p>
+<h1 id="开发宣言"><a href="#开发宣言" class="headerlink" title="开发宣言"></a>开发宣言</h1><pre><code>个体和交互 胜过过程和工具
+可以工作的软件 胜过 面面俱到的文档
+客户合作  胜过 合同谈判
+响应变化 胜过 遵循计划</code></pre><p>注：虽然右项也有价值，但是我们认为左项具有更大的价值。</p>
+<h1 id="开发原则"><a href="#开发原则" class="headerlink" title="开发原则"></a>开发原则</h1><ol>
+<li>快速迭代</li>
+<li>让测试人员和开发者参与需求讨论</li>
+<li>编写可测试的需求文档<br> 开始就用“用户故事”（user story）的方法来编写需求文档。</li>
+<li>多沟通，尽量减少文档</li>
+<li>做好产品原型<br>建议使用草图和模型来阐明用户界面，并不是所有人都可以理解一份复杂的文档，但人人都会看图。</li>
+<li>及早考虑测试。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/、释放命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/、释放命令/" itemprop="url">、释放命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:03:41+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">free -m  查看内存使用情况</span><br><span class="line"></span><br><span class="line">echo 1 &gt; /proc/sys/vm/drop_caches     // 释放页缓存</span><br><span class="line">echo 2 &gt; /proc/sys/vm/drop_caches     //释放dentries和inodes</span><br><span class="line">echo 3 &gt; /proc/sys/vm/drop_caches     // 释放所有缓存</span><br><span class="line"></span><br><span class="line">到这里内存就释放完了，现在drop_caches中的值为1，如果现在想让操作系统重新分配内存，那么设置drop_caches的值为0即可：</span><br><span class="line"></span><br><span class="line">echo 0 &gt; /proc/sys/vm/drop_caches</span><br><span class="line"></span><br><span class="line">free m</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/extren关键字/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/extren关键字/" itemprop="url">extren关键字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:00:00+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>@[toc]</p>
+<h1 id="首先-明白-这个单词-是什么意思？"><a href="#首先-明白-这个单词-是什么意思？" class="headerlink" title="首先 明白 这个单词 是什么意思？"></a>首先 明白 这个单词 是什么意思？</h1><p>Extern : 外部 的意思</p>
+<h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><p>置于 变量或者函数前，表示变量或者函数的定义在别的文件中，提示 编译器 遇到此变量和函数时，在其他模块中寻找其定义。</p>
+<h1 id="作用-主要有两个"><a href="#作用-主要有两个" class="headerlink" title="作用  主要有两个"></a>作用  主要有两个</h1><p>第一个 ： 与 “C” 一起连用时，如 extern  “C” void fun（int a，int b）告诉编译器在编译fun 这个函数名的时候按照C的规则去编译。而不是C++</p>
+<p>第二个： 当extern 不与C 一起修饰变量或函数时。如在头文件中：externa int g_int ;作用是：   声明函数或者全局变量 的作用范围的关键字，声明的函数或者变量可以在本模块或者其他模块中使用。记住，它 是<strong>一个声明不是定义</strong>。</p>
+<p>extern用在变量声明中常常有这样一个作用，你在<em>.c文件中声明了一个全局的变量，这个全局的变量如果要被引用，就放在</em>.h中并用extern来声明。</p>
+<h1 id="具体解释及示例"><a href="#具体解释及示例" class="headerlink" title=".具体解释及示例"></a>.具体解释及示例</h1><p>2.1.extern的变量和函数声明<br>extern用于修饰变量或函数，用于声明当前变量或函数可以在本模块或者其他模块中使用。不过要记住的是extern只是声明，而不是定义，也就是说extern并不分配空间。而这个查找的过程是在连接的过程中进行的，因此编译阶段虽然找不到该变量或函数，但是也不会报错。下面用三个例子来看一看。</p>
+<p>（1）无extern声明，有变量定义。</p>
+<pre><code>stdafx.cpp
+
+
+#include &quot;stdafx.h&quot;
+int g_test;
+main.cpp
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    g_test=2;
+    std::cout&lt;&lt;g_test;
+    return 0;
+}</code></pre><p>提示错误，因为此时main中不能调用到g_test。<br>1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(25) : error C2065: “g_test”: 未声明的标识符<br>1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(26) : error C2065: “g_test”: 未声明的标识符</p>
+<p>（2）有extern声明，无变量定义。</p>
+<pre><code>stdafx.h
+
+
+extern int g_test;
+main.cpp
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+    g_test=2;
+    std::cout&lt;&lt;g_test;
+    return 0;
+}</code></pre><p>提示错误，因为extern只是声明，并没有定义，也就没有空间的分配，而这时一个链接错误，编译的时候没办法发现。<br>1&gt;TestCpp.obj : error LNK2001: 无法解析的外部符号 “int g_test” (?g_test@@3HA)<br>1&gt;D:\Microsoft Visual Studio 9.0\Projects\TestCpp\Debug\TestCpp.exe : fatal error LNK1120: 1 个无法解析的外部命令</p>
+<p>（3）有extern声明，也有变量定义。</p>
+<pre><code>stdafx.cpp
+
+
+#include &quot;stdafx.h&quot;
+int g_test;
+stdafx.h
+extern int g_test;
+main.cpp
+int _tmain(int argc, _TCHAR* argv[])
+{
+    g_test=2;
+    std::cout&lt;&lt;g_test;
+    return 0;
+}</code></pre><p>程序执行正常。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/static关键字/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/static关键字/" itemprop="url">static关键字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:57:09+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>@[toc]</p>
+<h1 id="静态全局变量"><a href="#静态全局变量" class="headerlink" title="静态全局变量"></a>静态全局变量</h1><ol>
+<li>在全局变量前面，加上关键字 static  ，该变量就成为一个静态全局变量<br>特点：</li>
+<li>1 在全局数据区分配内存</li>
+<li>2 未经初始化的静态全局变量会被程序自动初始化为0（自动变量的值 是随机的，除非它被显式初始化）</li>
+<li>3 <strong>静态全局变量在声明它的整个文件都是可见的，而在文件之外是不可见。</strong></li>
+</ol>
+<p>理解： 避免变量 命名冲突，和其他文件中变量相撞。</p>
+<pre><code>//Example 2
+//File1
+#include &lt;iostream.h&gt;
+void fn();
+static int n; //定义静态全局变量
+void main()
+{
+ 　　n=20;
+ 　　cout&lt;&lt;n&lt;&lt;endl;
+ 　　fn();
+}
+
+//File2
+#include &lt;iostream.h&gt;
+extern int n;
+void fn()
+{
+　　 n++;
+ 　　cout&lt;&lt;n&lt;&lt;endl;
+}</code></pre><p>编译并运行Example 2，您就会发现上述代码可以分别通过编译，但运行时出现错误。试着将 “static int n; //定义静态全局变量”改为 “int n; //定义全局变量”<br>再次编译运行程序，细心体会“全局变量”和”静态全局变量”的区别。</p>
+<h1 id="静态局部变量"><a href="#静态局部变量" class="headerlink" title="静态局部变量"></a>静态局部变量</h1><p>特点：</p>
+<ol>
+<li>静态局部变量 在全局数据区分配内存</li>
+<li>静态局部变量在程序执行到该对象的声明处时，被第一次初始化，即 以后的函数调用不在进行初始化。</li>
+<li>静态局部变量一般在声明处初始化，如果没有显式初始化，会被程序自动初始化为0</li>
+<li>会始终驻留在 全局数据区，直到程序运行结束，但其作用域为局部作用域，当定义它的函数或者语句块结束时，其作用域随之结束。</li>
+</ol>
+<p>通常，在函数体内定义了一个变量，每当程序运行到该语句时都会给该局部变量分配栈内存。但随着程序退出函数体，系统就会收回栈内存，局部变量也相应失效。但有时候我们需要在两次调用之间对变量的值进行保存。通常的想法是定义一个全局变量来实现。但这样一来，变量已经不再属于函数本身了，不再仅受函数的控制，给程序的维护带来不便。<br>静态局部变量正好可以解决这个问题。静态局部变量保存在全局数据区，而不是保存在栈中，每次的值保持到下一次调用，直到下次赋新值。 </p>
+<p>理解：静态全局变量 维护 比 静态局部变量维护开销大?<br>static 默认进行初始化为0，并且数据是放在全局数据区中的。两次函数调用就可以对同一个变量进行操作。</p>
+<h1 id="静态函数"><a href="#静态函数" class="headerlink" title="静态函数"></a>静态函数</h1><ol>
+<li>只能在声明它的文件中可用，其他文件不能被使用 ，从而避免命名冲突</li>
+</ol>
+<h1 id="类中的static-关键字"><a href="#类中的static-关键字" class="headerlink" title="类中的static 关键字"></a>类中的static 关键字</h1><h2 id="静态数据成员"><a href="#静态数据成员" class="headerlink" title="静态数据成员"></a>静态数据成员</h2><p>非静态数据成员，会存在多份拷贝，<br>静态数据成员，会存在一份拷贝，由该类型的所有对象共享访问。所以静态成员的值对每个对象都是一样的，它的值可以更新，</p>
+<p><strong><em>静态数据成员存储在全局数据区。静态数据成员定义时要分配空间，所以不能在类声明中定义。</em></strong></p>
+<p> 静态数据成员和普通数据成员一样遵从public,protected,private访问规则； </p>
+<p><strong><em>实现信息隐藏</em></strong>，<strong><em>静态数据成员可以是private成员，而全局变量不可以</em></strong></p>
+<h2 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h2><p>普通函数拥有this 指针 会指向对象本身、<br>但是与普通函数相比，静态成员函数由于不是与任何的对象相联系，因此不具有this 指针。</p>
+<p>从而更进一步说，它无法访问属于类对象的非静态数据成员，也无法访问非静态成员函数，只能调用其余的<strong>静态成员函数</strong>。</p>
+<pre><code>#include &lt;iostream.h&gt;
+class Myclass
+{
+public:
+ 　　Myclass(int a,int b,int c);
+ 　　static void GetSum();/声明静态成员函数
+private:
+ 　　int a,b,c;
+　　 static int Sum;//声明静态数据成员
+};
+int Myclass::Sum=0;//定义并初始化静态数据成员
+
+Myclass::Myclass(int a,int b,int c)
+{
+ 　　this-&gt;a=a;
+ 　　this-&gt;b=b;
+ 　　this-&gt;c=c;
+ 　　Sum+=a+b+c; //非静态成员函数可以访问静态数据成员
+}
+
+void Myclass::GetSum() //静态成员函数的实现
+{
+　　// cout&lt;&lt;a&lt;&lt;endl; //错误代码，a是非静态数据成员
+ 　　cout&lt;&lt;&quot;Sum=&quot;&lt;&lt;Sum&lt;&lt;endl;
+}
+
+void main()
+{
+ 　　Myclass M(1,2,3);
+ 　　M.GetSum();
+ 　　Myclass N(4,5,6);
+ 　　N.GetSum();
+ 　　Myclass::GetSum();
+}</code></pre><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
+<li>非静态成员函数可以任意访问静态成员函数和静态数据成员。</li>
+<li>静态成员函数不能访问非静态成员函数和非静态数据成员。（因为没有this 指针）</li>
+<li>由于没有this 指针的额外开销，静态成员函数与类的全局函数相比速度会有少许的增长。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/单例模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/08/单例模式/" itemprop="url">单例模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:55:22+08:00">
+                2019-09-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">class singleton&#123;</span><br><span class="line">private:</span><br><span class="line">    static volatile singleton *p;</span><br><span class="line">    static pthread_mutex_t mtx;</span><br><span class="line">    singleton()&#123;&#125;</span><br><span class="line">public:</span><br><span class="line">    static singleton * getInstance();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">singleton * singleton::p = NULL;</span><br><span class="line">pthread_mutex_t singleton::mtx;</span><br><span class="line"></span><br><span class="line">singleton * singleton::getInstance()&#123;</span><br><span class="line">    if (p == NULL)&#123;</span><br><span class="line">        pthread_mutex_lock(&amp;mtx);</span><br><span class="line">        if (p == NULL)  p = new singleton;</span><br><span class="line">        pthread_mutex_unlock(&amp;mtx);</span><br><span class="line">    &#125;</span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    singleton * ptr = singleton::getInstance();</span><br><span class="line">    singleton * ptr1 = singleton::getInstance();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/git子模块/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -638,7 +1508,7 @@ git submodule foreach git pull</code></pre>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
