@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;pthread.h&amp;gt;#include &amp;lt;unistd.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;class singleton&amp;#123;private:    static volatil">
+<meta name="description" content="daemon进程是后台守护进程daemon函数存在的原因是因为控制终端由于某些原因（如断开终端链接）会发送一些信号的原因。而接收进程处理这些信号缺省动作会让进程退出。这些信号会由于终端上敲一些特殊按键而产生。   12345678910111213141516171819202122232425int daemon(void)&amp;#123;    pid_t pid = fork();    if">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单例模式">
-<meta property="og:url" content="http://yoursite.com/2019/09/08/单例模式/index.html">
+<meta property="og:title" content="daemon 进程为什么要fork两次，与后台运行程序区别？">
+<meta property="og:url" content="http://yoursite.com/2019/09/08/daemon-进程为什么要fork两次，与后台运行程序区别？/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;pthread.h&amp;gt;#include &amp;lt;unistd.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;class singleton&amp;#123;private:    static volatil">
+<meta property="og:description" content="daemon进程是后台守护进程daemon函数存在的原因是因为控制终端由于某些原因（如断开终端链接）会发送一些信号的原因。而接收进程处理这些信号缺省动作会让进程退出。这些信号会由于终端上敲一些特殊按键而产生。   12345678910111213141516171819202122232425int daemon(void)&amp;#123;    pid_t pid = fork();    if">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-09-08T04:56:14.084Z">
+<meta property="og:updated_time" content="2019-09-08T05:11:36.380Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="单例模式">
-<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;pthread.h&amp;gt;#include &amp;lt;unistd.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;class singleton&amp;#123;private:    static volatil">
+<meta name="twitter:title" content="daemon 进程为什么要fork两次，与后台运行程序区别？">
+<meta name="twitter:description" content="daemon进程是后台守护进程daemon函数存在的原因是因为控制终端由于某些原因（如断开终端链接）会发送一些信号的原因。而接收进程处理这些信号缺省动作会让进程退出。这些信号会由于终端上敲一些特殊按键而产生。   12345678910111213141516171819202122232425int daemon(void)&amp;#123;    pid_t pid = fork();    if">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/08/单例模式/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/08/daemon-进程为什么要fork两次，与后台运行程序区别？/">
 
 
 
 
 
-  <title>单例模式 | Hexo</title>
+  <title>daemon 进程为什么要fork两次，与后台运行程序区别？ | Hexo</title>
   
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/单例模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/08/daemon-进程为什么要fork两次，与后台运行程序区别？/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">单例模式</h1>
+          <h1 class="post-title" itemprop="name headline">daemon 进程为什么要fork两次，与后台运行程序区别？</h1>
         
 
         <div class="post-meta">
@@ -261,7 +261,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T12:55:22+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-08T13:11:05+08:00">
                 2019-09-08
               </time>
             
@@ -299,8 +299,24 @@
       
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">class singleton&#123;</span><br><span class="line">private:</span><br><span class="line">    static volatile singleton *p;</span><br><span class="line">    static pthread_mutex_t mtx;</span><br><span class="line">    singleton()&#123;&#125;</span><br><span class="line">public:</span><br><span class="line">    static singleton * getInstance();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">singleton * singleton::p = NULL;</span><br><span class="line">pthread_mutex_t singleton::mtx;</span><br><span class="line"></span><br><span class="line">singleton * singleton::getInstance()&#123;</span><br><span class="line">    if (p == NULL)&#123;</span><br><span class="line">        pthread_mutex_lock(&amp;mtx);</span><br><span class="line">        if (p == NULL)  p = new singleton;</span><br><span class="line">        pthread_mutex_unlock(&amp;mtx);</span><br><span class="line">    &#125;</span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    singleton * ptr = singleton::getInstance();</span><br><span class="line">    singleton * ptr1 = singleton::getInstance();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <blockquote>
+<p>daemon进程是后台守护进程<br>daemon函数存在的原因是因为控制终端由于某些原因（如断开终端链接）会发送一些信号的原因。而接收进程处理这些信号缺省动作会让进程退出。这些信号会由于终端上敲一些特殊按键而产生。</p>
+</blockquote>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">int daemon(void)</span><br><span class="line">&#123;</span><br><span class="line">    pid_t pid = fork();</span><br><span class="line">    if( pid != 0 ) exit(0);//parent</span><br><span class="line">    //first children</span><br><span class="line">    if(setsid() == -1)</span><br><span class="line">    &#123;</span><br><span class="line">       printf(&quot;setsid failed\n&quot;);</span><br><span class="line">       assert(0);</span><br><span class="line">       exit(-1);</span><br><span class="line">    &#125;</span><br><span class="line">    umask(0);</span><br><span class="line">    pid = fork();</span><br><span class="line">    if( pid != 0) exit(0);</span><br><span class="line">    //second children </span><br><span class="line">    chdir (&quot;/&quot;);</span><br><span class="line">    for (int i = 0; i &lt; 3; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        close (i);</span><br><span class="line">    &#125;</span><br><span class="line">    int stdfd = open (&quot;/dev/null&quot;, O_RDWR);</span><br><span class="line">    dup2(stdfd, STDOUT_FILENO);</span><br><span class="line">    dup2(stdfd, STDERR_FILENO);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<hr>
+<ol>
+<li><p>第一次fork 的作用 是让shell 认为本条命令已经终止，不用挂在终端输入上。还有一个作用是为后面setsid服务。<strong>setsid的调用者不能让进程组组长（group leader）.此时父进程是进程组长。</strong></p>
+</li>
+<li><p>setsid() 是本函数最重要的一个调用。它完成了daemon函数想要做的大部分事情。调用完整个函数。子进程是会话组长(sid==pid)，也是进程组组长(pgid == pid)，并且脱离了原来控制终端。到了这一步，基本上不管控制终端如何怎么样。新的进程都不会收到那些信号。</p>
+</li>
+<li><p>经过前面2个步骤，基本想要做的都做了。第2次fork不是必须的。也看到很多开源服务没有fork第二次。fork第二次主要目的是。防止进程再次打开一个控制终端。因为打开一个控制终端的前提条件是该进程必须是会话组长。再fork一次，子进程ID != sid（sid是进程父进程的sid）。所以也无法打开新的控制终端。</p>
+</li>
+<li><p>daemon目的就是防止终端产生的一些信号让进程退出。上面函数并没有直接调用signal函数去处理它。而是间接通过fork和setsid函数使用更少代码优雅处理。而被有些人误以为是僵死进程的原因需要这样处理。</p>
+</li>
+</ol>
+<h1 id="守护进程与用-amp-结尾的后台运行程序有什么区别呢？"><a href="#守护进程与用-amp-结尾的后台运行程序有什么区别呢？" class="headerlink" title="守护进程与用&amp;结尾的后台运行程序有什么区别呢？"></a>守护进程与用&amp;结尾的后台运行程序有什么区别呢？</h1><p>最大的区别有几点：<br>1)守护进程已经完全脱离终端控制台了，而后台程序并未完全脱离终端，在终端未关闭前还是会往终端输出结果<br>2)守护进程在关闭终端控制台时不会受影响，而后台程序会随用户退出而停止，需要在以nohug xxx &amp; 格式运行才能避免影响<br>3)守护进程的会话组和当前目录，文件描述符都是独立的。后台运行只是终端进行了一次fork，让程序在后台执行，这些都没改变。</p>
 
       
     </div>
@@ -325,8 +341,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/08/git子模块/" rel="next" title="git子模块">
-                <i class="fa fa-chevron-left"></i> git子模块
+              <a href="/2019/09/08/git-fork-别人的项目后再同步/" rel="next" title="git fork 别人的项目后再同步">
+                <i class="fa fa-chevron-left"></i> git fork 别人的项目后再同步
               </a>
             
           </div>
@@ -334,10 +350,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/08/static关键字/" rel="prev" title="static关键字">
-                static关键字 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -389,8 +401,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -432,6 +453,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#守护进程与用-amp-结尾的后台运行程序有什么区别呢？"><span class="nav-number">1.</span> <span class="nav-text">守护进程与用&amp;结尾的后台运行程序有什么区别呢？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
