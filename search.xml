@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
+    <title><![CDATA[zookeeper 一致性]]></title>
+    <url>%2F2019%2F09%2F09%2Fzookeeper-%E4%B8%80%E8%87%B4%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》 看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容错性 该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。 zookeeper 的一致性什么是一致性？ 一致性就是从系统外部读取系统内部的数据时，即数据变动在系统内部各节点应该是同步的 一致性分类分成五类，强度依次减弱。 强一致性 用户都只能读到最近一次成功的数据。 单调一致性 任何时刻，任何用户一旦读到某个数据在某次更新后的值，那么就不会再读到比这个值更旧的值。也就是说，可获取的数据顺序必是单调递增的。 会话一致性 在单调一致性上发送约束，只保证在会话阶段是单调的一致。 最终一致性 用户只能读到某次更新后的值，但系统保证数据将最终达到完全一致的状态，只是所需时间不能保障 弱一致性 用户无法在确定时间内读到最新更新的值 ZAB协议 (ZooKeeper Atomic Broadcast 广播)主要有两个模式，崩溃恢复和消息广播 1.崩溃恢复：主要就是Leader选举过程 2.数据同步：Leader服务器与其他服务器进行数据同步 3.消息广播：Leader服务器将数据发送给其他服务器在这里要记住一个ZXID的概念，代表当前最高提案]]></content>
+      <categories>
+        <category>大数据</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二叉树]]></title>
     <url>%2F2019%2F09%2F08%2F%E4%BA%8C%E5%8F%89%E6%A0%91%2F</url>
-    <content type="text"><![CDATA[title: 二叉树date: 2019-09-08 20:08:17tags: 算法categories: 算法 二叉树节点间的最大距离（微软面试题） 【思路】最大距离有三种情况： h 左子树的最大距离 h 右子树的最大距离 h 左子树上离 h.left 最远的距离+1（h） + h右子树上离h.right最远的距离 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; class Node { public: int value; Node* left; Node* right; Node(int data) :value(data) { } }; int maxDistance(Node *head) { int record = 0; return postOrder(head,record); } int postOrder(Node* head, int&amp; record) { if (head == nullptr) { record = 0; return 0; } int lmax = postOrder(head-&gt;left, record); int maxfromLeft = record; int rmax = postOrder(head-&gt;right, record); int maxfromRight = record; int curNodeMax = maxfromLeft + 1 + maxfromRight; record = max(maxfromLeft,maxfromRight)+1; return max(max(lmax, rmax), curNodeMax); }]]></content>
+    <content type="text"><![CDATA[二叉树节点间的最大距离（微软面试题） 【思路】最大距离有三种情况： h 左子树的最大距离 h 右子树的最大距离 h 左子树上离 h.left 最远的距离+1（h） + h右子树上离h.right最远的距离 #include &lt;iostream&gt; #include &lt;algorithm&gt; using namespace std; class Node { public: int value; Node* left; Node* right; Node(int data) :value(data) { } }; int maxDistance(Node *head) { int record = 0; return postOrder(head,record); } int postOrder(Node* head, int&amp; record) { if (head == nullptr) { record = 0; return 0; } int lmax = postOrder(head-&gt;left, record); int maxfromLeft = record; int rmax = postOrder(head-&gt;right, record); int maxfromRight = record; int curNodeMax = maxfromLeft + 1 + maxfromRight; record = max(maxfromLeft,maxfromRight)+1; return max(max(lmax, rmax), curNodeMax); }]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Tree的遍历]]></title>
@@ -162,7 +179,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[、释放命令]]></title>
+    <title><![CDATA[linux释放命令]]></title>
     <url>%2F2019%2F09%2F08%2F%E3%80%81%E9%87%8A%E6%94%BE%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[1234567891011free -m 查看内存使用情况echo 1 &gt; /proc/sys/vm/drop_caches // 释放页缓存echo 2 &gt; /proc/sys/vm/drop_caches //释放dentries和inodesecho 3 &gt; /proc/sys/vm/drop_caches // 释放所有缓存到这里内存就释放完了，现在drop_caches中的值为1，如果现在想让操作系统重新分配内存，那么设置drop_caches的值为0即可：echo 0 &gt; /proc/sys/vm/drop_cachesfree m]]></content>
       <categories>

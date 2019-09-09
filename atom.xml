@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-09-08T12:10:05.123Z</updated>
+  <updated>2019-09-09T14:03:48.787Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,27 +17,57 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2019/09/08/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>http://yoursite.com/2019/09/08/二叉树/</id>
-    <published>2019-09-08T12:08:17.137Z</published>
-    <updated>2019-09-08T12:10:05.123Z</updated>
+    <title>zookeeper 一致性</title>
+    <link href="http://yoursite.com/2019/09/09/zookeeper-%E4%B8%80%E8%87%B4%E6%80%A7/"/>
+    <id>http://yoursite.com/2019/09/09/zookeeper-一致性/</id>
+    <published>2019-09-09T13:18:39.000Z</published>
+    <updated>2019-09-09T14:03:48.787Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>title: 二叉树<br>date: 2019-09-08 20:08:17<br>tags: 算法<br>categories: 算法</p><hr><p>二叉树节点间的最大距离（微软面试题）<br><img src="https://img-blog.csdnimg.cn/20190527154008178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>【思路】<br>最大距离有三种情况：</p><ol><li>h 左子树的最大距离</li><li>h 右子树的最大距离</li><li>h 左子树上离 h.left 最远的距离+1（h） + h右子树上离h.right最远的距离</li></ol><pre><code>#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;class Node {public:    int value;    Node* left;    Node* right;    Node(int data) :value(data) {    }};int maxDistance(Node *head){    int record = 0;    return postOrder(head,record);}int postOrder(Node* head, int&amp; record){    if (head == nullptr) {        record = 0;        return 0;    }    int lmax = postOrder(head-&gt;left, record);    int maxfromLeft = record;    int rmax = postOrder(head-&gt;right, record);    int maxfromRight = record;    int curNodeMax = maxfromLeft + 1 + maxfromRight;    record = max(maxfromLeft,maxfromRight)+1;    return max(max(lmax, rmax), curNodeMax);}</code></pre>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>写在开头<br>文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》</p></blockquote><p>看这个博客整理<br><a href="https://www.cnblogs.com/sunddenly/p/4138580.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunddenly/p/4138580.html</a></p><hr><h1 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h1><pre><code>C:Consistency 一致性 数据一致更新，所有数据变动都是同步的A:Availability 可用性 系统具有好的响应性能P:Partition tolerance 分区容错性 该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。</code></pre><hr><h1 id="zookeeper-的一致性"><a href="#zookeeper-的一致性" class="headerlink" title="zookeeper 的一致性"></a>zookeeper 的一致性</h1><h2 id="什么是一致性？"><a href="#什么是一致性？" class="headerlink" title="什么是一致性？"></a>什么是一致性？</h2><blockquote><p>一致性就是从系统外部读取系统内部的数据时，即数据变动在系统内部各节点应该是同步的</p></blockquote><h2 id="一致性分类"><a href="#一致性分类" class="headerlink" title="一致性分类"></a>一致性分类</h2><p>分成五类，强度依次减弱。</p><h3 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h3><blockquote><p>用户都只能读到最近一次成功的数据。</p></blockquote><h3 id="单调一致性"><a href="#单调一致性" class="headerlink" title="单调一致性"></a>单调一致性</h3><blockquote><p>任何时刻，任何用户一旦读到某个数据在某次更新后的值，那么就不会再读到比这个值更旧的值。也就是说，可获取的数据顺序必是单调递增的。</p></blockquote><h3 id="会话一致性"><a href="#会话一致性" class="headerlink" title="会话一致性"></a>会话一致性</h3><blockquote><p>在单调一致性上发送约束，只保证在会话阶段是单调的一致。</p></blockquote><h3 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h3><blockquote><p>用户只能读到某次更新后的值，但系统保证数据将最终达到完全一致的状态，只是所需时间不能保障</p></blockquote><h3 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h3><blockquote><p>用户无法在确定时间内读到最新更新的值</p></blockquote><h1 id="ZAB协议-ZooKeeper-Atomic-Broadcast-广播"><a href="#ZAB协议-ZooKeeper-Atomic-Broadcast-广播" class="headerlink" title="ZAB协议 (ZooKeeper Atomic Broadcast 广播)"></a>ZAB协议 (ZooKeeper Atomic Broadcast 广播)</h1><p>主要有两个模式，崩溃恢复和消息广播</p><pre><code>1.崩溃恢复：主要就是Leader选举过程2.数据同步：Leader服务器与其他服务器进行数据同步3.消息广播：Leader服务器将数据发送给其他服务器</code></pre><p>在这里要记住一个ZXID的概念，代表当前最高提案</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;hr&gt;
-&lt;p&gt;title: 二叉树&lt;br&gt;date: 2019-09-08 20:08:17&lt;br&gt;tags: 算法&lt;br&gt;categories: 算法&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;二叉树节点间的最大距离（微软面试题）&lt;br&gt;&lt;img src=&quot;https://img-blog.c
+        &lt;blockquote&gt;
+&lt;p&gt;写在开头&lt;br&gt;文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;看这个博客整理&lt;br&gt;&lt;a href=&quot;https://www.cnblogs.com/sunddenly/p
       
     
     </summary>
     
     
+      <category term="大数据" scheme="http://yoursite.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="大数据" scheme="http://yoursite.com/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二叉树</title>
+    <link href="http://yoursite.com/2019/09/08/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    <id>http://yoursite.com/2019/09/08/二叉树/</id>
+    <published>2019-09-08T12:08:17.000Z</published>
+    <updated>2019-09-09T13:23:08.215Z</updated>
+    
+    <content type="html"><![CDATA[<p>二叉树节点间的最大距离（微软面试题）<br><img src="https://img-blog.csdnimg.cn/20190527154008178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>【思路】<br>最大距离有三种情况：</p><ol><li>h 左子树的最大距离</li><li>h 右子树的最大距离</li><li>h 左子树上离 h.left 最远的距离+1（h） + h右子树上离h.right最远的距离</li></ol><pre><code>#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;class Node {public:    int value;    Node* left;    Node* right;    Node(int data) :value(data) {    }};int maxDistance(Node *head){    int record = 0;    return postOrder(head,record);}int postOrder(Node* head, int&amp; record){    if (head == nullptr) {        record = 0;        return 0;    }    int lmax = postOrder(head-&gt;left, record);    int maxfromLeft = record;    int rmax = postOrder(head-&gt;right, record);    int maxfromRight = record;    int curNodeMax = maxfromLeft + 1 + maxfromRight;    record = max(maxfromLeft,maxfromRight)+1;    return max(max(lmax, rmax), curNodeMax);}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;二叉树节点间的最大距离（微软面试题）&lt;br&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/20190527154008178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,
+      
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -445,11 +475,11 @@ public:
   </entry>
   
   <entry>
-    <title>、释放命令</title>
+    <title>linux释放命令</title>
     <link href="http://yoursite.com/2019/09/08/%E3%80%81%E9%87%8A%E6%94%BE%E5%91%BD%E4%BB%A4/"/>
     <id>http://yoursite.com/2019/09/08/、释放命令/</id>
     <published>2019-09-08T05:03:41.000Z</published>
-    <updated>2019-09-08T06:56:29.053Z</updated>
+    <updated>2019-09-09T13:21:23.914Z</updated>
     
     <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">free -m  查看内存使用情况</span><br><span class="line"></span><br><span class="line">echo 1 &gt; /proc/sys/vm/drop_caches     // 释放页缓存</span><br><span class="line">echo 2 &gt; /proc/sys/vm/drop_caches     //释放dentries和inodes</span><br><span class="line">echo 3 &gt; /proc/sys/vm/drop_caches     // 释放所有缓存</span><br><span class="line"></span><br><span class="line">到这里内存就释放完了，现在drop_caches中的值为1，如果现在想让操作系统重新分配内存，那么设置drop_caches的值为0即可：</span><br><span class="line"></span><br><span class="line">echo 0 &gt; /proc/sys/vm/drop_caches</span><br><span class="line"></span><br><span class="line">free m</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -521,32 +551,6 @@ public:
     
     
       <category term="C++" scheme="http://yoursite.com/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>单例模式</title>
-    <link href="http://yoursite.com/2019/09/08/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
-    <id>http://yoursite.com/2019/09/08/单例模式/</id>
-    <published>2019-09-08T04:55:22.000Z</published>
-    <updated>2019-09-08T06:59:48.404Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">class singleton&#123;</span><br><span class="line">private:</span><br><span class="line">    static volatile singleton *p;</span><br><span class="line">    static pthread_mutex_t mtx;</span><br><span class="line">    singleton()&#123;&#125;</span><br><span class="line">public:</span><br><span class="line">    static singleton * getInstance();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">singleton * singleton::p = NULL;</span><br><span class="line">pthread_mutex_t singleton::mtx;</span><br><span class="line"></span><br><span class="line">singleton * singleton::getInstance()&#123;</span><br><span class="line">    if (p == NULL)&#123;</span><br><span class="line">        pthread_mutex_lock(&amp;mtx);</span><br><span class="line">        if (p == NULL)  p = new singleton;</span><br><span class="line">        pthread_mutex_unlock(&amp;mtx);</span><br><span class="line">    &#125;</span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    singleton * ptr = singleton::getInstance();</span><br><span class="line">    singleton * ptr1 = singleton::getInstance();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
-      
-    
-    </summary>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
   </entry>
   

@@ -81,7 +81,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="大数据,">
 
 
 
@@ -94,17 +94,18 @@
 
 
 
-<meta name="description" content="我爱代码，张静怎么办？">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://yoursite.com/about/index.html">
+<meta name="description" content="写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》  看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html  CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容">
+<meta name="keywords" content="大数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper 一致性">
+<meta property="og:url" content="http://yoursite.com/2019/09/09/zookeeper-一致性/index.html">
 <meta property="og:site_name" content="Terry Blog">
-<meta property="og:description" content="我爱代码，张静怎么办？">
+<meta property="og:description" content="写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》  看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html  CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-08T05:22:44.672Z">
+<meta property="og:updated_time" content="2019-09-09T14:03:48.787Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
-<meta name="twitter:description" content="我爱代码，张静怎么办？">
+<meta name="twitter:title" content="zookeeper 一致性">
+<meta name="twitter:description" content="写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》  看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html  CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容">
 
 
 
@@ -134,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/about/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/09/zookeeper-一致性/">
 
 
 
 
 
-  <title>about | Terry Blog</title>
+  <title>zookeeper 一致性 | Terry Blog</title>
   
 
 
@@ -299,33 +300,251 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/09/zookeeper-一致性/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Terry">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/my.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Terry Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">about</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">zookeeper 一致性</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-09T21:18:39+08:00">
+                2019-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <blockquote>
+<p>写在开头<br>文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》</p>
+</blockquote>
+<p>看这个博客整理<br><a href="https://www.cnblogs.com/sunddenly/p/4138580.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunddenly/p/4138580.html</a></p>
+<hr>
+<h1 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h1><pre><code>C:Consistency 一致性 数据一致更新，所有数据变动都是同步的
+A:Availability 可用性 系统具有好的响应性能
+P:Partition tolerance 分区容错性 
+该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。</code></pre><hr>
+<h1 id="zookeeper-的一致性"><a href="#zookeeper-的一致性" class="headerlink" title="zookeeper 的一致性"></a>zookeeper 的一致性</h1><h2 id="什么是一致性？"><a href="#什么是一致性？" class="headerlink" title="什么是一致性？"></a>什么是一致性？</h2><blockquote>
+<p>一致性就是从系统外部读取系统内部的数据时，即数据变动在系统内部各节点应该是同步的</p>
+</blockquote>
+<h2 id="一致性分类"><a href="#一致性分类" class="headerlink" title="一致性分类"></a>一致性分类</h2><p>分成五类，强度依次减弱。</p>
+<h3 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h3><blockquote>
+<p>用户都只能读到最近一次成功的数据。</p>
+</blockquote>
+<h3 id="单调一致性"><a href="#单调一致性" class="headerlink" title="单调一致性"></a>单调一致性</h3><blockquote>
+<p>任何时刻，任何用户一旦读到某个数据在某次更新后的值，那么就不会再读到比这个值更旧的值。也就是说，可获取的数据顺序必是单调递增的。</p>
+</blockquote>
+<h3 id="会话一致性"><a href="#会话一致性" class="headerlink" title="会话一致性"></a>会话一致性</h3><blockquote>
+<p>在单调一致性上发送约束，只保证在会话阶段是单调的一致。</p>
+</blockquote>
+<h3 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h3><blockquote>
+<p>用户只能读到某次更新后的值，但系统保证数据将最终达到完全一致的状态，只是所需时间不能保障</p>
+</blockquote>
+<h3 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h3><blockquote>
+<p>用户无法在确定时间内读到最新更新的值</p>
+</blockquote>
+<h1 id="ZAB协议-ZooKeeper-Atomic-Broadcast-广播"><a href="#ZAB协议-ZooKeeper-Atomic-Broadcast-广播" class="headerlink" title="ZAB协议 (ZooKeeper Atomic Broadcast 广播)"></a>ZAB协议 (ZooKeeper Atomic Broadcast 广播)</h1><p>主要有两个模式，崩溃恢复和消息广播</p>
+<pre><code>1.崩溃恢复：主要就是Leader选举过程
+2.数据同步：Leader服务器与其他服务器进行数据同步
+3.消息广播：Leader服务器将数据发送给其他服务器</code></pre><p>在这里要记住一个ZXID的概念，代表当前最高提案</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    Terry
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="http://yoursite.com/2019/09/09/zookeeper-一致性/" title="zookeeper 一致性">http://yoursite.com/2019/09/09/zookeeper-一致性/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag"><i class="fa fa-tag"></i> 大数据</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/08/二叉树/" rel="next" title="二叉树">
+                <i class="fa fa-chevron-left"></i> 二叉树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -358,8 +577,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -438,6 +666,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CAP理论"><span class="nav-number">1.</span> <span class="nav-text">CAP理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#zookeeper-的一致性"><span class="nav-number">2.</span> <span class="nav-text">zookeeper 的一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是一致性？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是一致性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性分类"><span class="nav-number">2.2.</span> <span class="nav-text">一致性分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#强一致性"><span class="nav-number">2.2.1.</span> <span class="nav-text">强一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单调一致性"><span class="nav-number">2.2.2.</span> <span class="nav-text">单调一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会话一致性"><span class="nav-number">2.2.3.</span> <span class="nav-text">会话一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最终一致性"><span class="nav-number">2.2.4.</span> <span class="nav-text">最终一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弱一致性"><span class="nav-number">2.2.5.</span> <span class="nav-text">弱一致性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZAB协议-ZooKeeper-Atomic-Broadcast-广播"><span class="nav-number">3.</span> <span class="nav-text">ZAB协议 (ZooKeeper Atomic Broadcast 广播)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
