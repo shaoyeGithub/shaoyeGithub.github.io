@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="Terry Blog">
 <meta property="og:description" content="写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》  看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html  CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-09T14:03:48.787Z">
+<meta property="og:updated_time" content="2019-09-09T14:16:44.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="zookeeper 一致性">
 <meta name="twitter:description" content="写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》  看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html  CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容">
@@ -469,6 +469,9 @@ P:Partition tolerance 分区容错性
 <pre><code>1.崩溃恢复：主要就是Leader选举过程
 2.数据同步：Leader服务器与其他服务器进行数据同步
 3.消息广播：Leader服务器将数据发送给其他服务器</code></pre><p>在这里要记住一个ZXID的概念，代表当前最高提案</p>
+<h1 id="zookeeper是如何保证事务的顺序一致性的？"><a href="#zookeeper是如何保证事务的顺序一致性的？" class="headerlink" title="zookeeper是如何保证事务的顺序一致性的？"></a>zookeeper是如何保证事务的顺序一致性的？</h1><blockquote>
+<p>zookeeper采用了递增的事务Id来标识，所有的proposal（提议）都在被提出的时候加上了zxid，zxid实际上是一个64位的数字，高32位是epoch（时期; 纪元; 世; 新时代）用来标识leader是否发生改变，如果有新的leader产生出来，epoch会自增，低32位用来递增计数。当新产生proposal的时候，会依据数据库的两阶段过程，首先会向其他的server发出事务执行请求，如果超过半数的机器都能执行并且能够成功，那么就会开始执行。</p>
+</blockquote>
 
       
     </div>
@@ -526,6 +529,10 @@ P:Partition tolerance 分区容错性
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/09/数据库锁/" rel="prev" title="数据库锁">
+                数据库锁 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -604,7 +611,7 @@ P:Partition tolerance 分区容错性
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -615,7 +622,7 @@ P:Partition tolerance 分区容错性
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -626,7 +633,7 @@ P:Partition tolerance 分区容错性
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -676,7 +683,7 @@ P:Partition tolerance 分区容错性
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CAP理论"><span class="nav-number">1.</span> <span class="nav-text">CAP理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#zookeeper-的一致性"><span class="nav-number">2.</span> <span class="nav-text">zookeeper 的一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是一致性？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是一致性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性分类"><span class="nav-number">2.2.</span> <span class="nav-text">一致性分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#强一致性"><span class="nav-number">2.2.1.</span> <span class="nav-text">强一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单调一致性"><span class="nav-number">2.2.2.</span> <span class="nav-text">单调一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会话一致性"><span class="nav-number">2.2.3.</span> <span class="nav-text">会话一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最终一致性"><span class="nav-number">2.2.4.</span> <span class="nav-text">最终一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弱一致性"><span class="nav-number">2.2.5.</span> <span class="nav-text">弱一致性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZAB协议-ZooKeeper-Atomic-Broadcast-广播"><span class="nav-number">3.</span> <span class="nav-text">ZAB协议 (ZooKeeper Atomic Broadcast 广播)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CAP理论"><span class="nav-number">1.</span> <span class="nav-text">CAP理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#zookeeper-的一致性"><span class="nav-number">2.</span> <span class="nav-text">zookeeper 的一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是一致性？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是一致性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性分类"><span class="nav-number">2.2.</span> <span class="nav-text">一致性分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#强一致性"><span class="nav-number">2.2.1.</span> <span class="nav-text">强一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单调一致性"><span class="nav-number">2.2.2.</span> <span class="nav-text">单调一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会话一致性"><span class="nav-number">2.2.3.</span> <span class="nav-text">会话一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最终一致性"><span class="nav-number">2.2.4.</span> <span class="nav-text">最终一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弱一致性"><span class="nav-number">2.2.5.</span> <span class="nav-text">弱一致性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ZAB协议-ZooKeeper-Atomic-Broadcast-广播"><span class="nav-number">3.</span> <span class="nav-text">ZAB协议 (ZooKeeper Atomic Broadcast 广播)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#zookeeper是如何保证事务的顺序一致性的？"><span class="nav-number">4.</span> <span class="nav-text">zookeeper是如何保证事务的顺序一致性的？</span></a></li></ol></div>
             
 
           </div>

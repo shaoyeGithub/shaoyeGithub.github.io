@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[IO多路复用]]></title>
+    <url>%2F2019%2F09%2F10%2FIO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[IO多路复用 多路复用基于事件驱动来实现，事件驱动是多路复用的核心机制 用来解决单次请求阻塞的问题，例如等待处理read请求，阻塞在哪里 Unix网络编程中，这么定义IO多路复用，内核一旦发现 IO 分类阻塞式IO 最常见的等待那种select （阻塞） int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout); nfds 为最大的文件描述符值 +1 readfds 某些文件描述符所指向的 socket 已经有数据可读或者数据 EOF writefds 某些文件描述符所指向的 socket 是否可写数据了 exceptfds 某些文件描述符所指向的 socket 出现异常 1. fd_set 文件描述符的集合 （数组） 会将其拷贝到内核态，readset在内核态轮训检查 2. 数据结构大小有限 使用的是bitmap 存储fd 3. 当有数据的来，会将fd_set 置位，select返回，然后再根据置位来查找文件描述符 4. 当没有数据，会阻塞。poll int poll (struct pollfd *fds, unsigned int nfds, int timeout); struct pollfd { int fd; short events; short revents; };pollfd 的结构如下， 每个 fd 都有对应的监听事件 events，和就绪返回的事件 revents，现在 fd 的大小是 int 最大值了 select VS poll: poll 不需要每次都重新构建需要监控的 fd set，但还是会有引起上下文切换的内存 copy poll 不需要像 select 那样需要用户计算 fd 的最大值 +1，作为 select 函数的第一个参数 poll 减少了 fd 的遍历，在 select 中监控的某 socket 所对应的 fd 值为 1000，那么需要做 1000 次循环 poll 解除了 select 对于 fd 数量 1024 的限制 poll 在 unix 下不支持 epoll 有数据，进行数据重排，放到前面 while(1){ puts(&quot;round again&quot;); nfds = epoll_wait(epfd, events, 5, 10000); //nfds 返回的即为多个前面的有数据的fd for(i=0;i&lt;nfds;i++) { memset(buffer,0,MAXBUF); read(events[i].data.fd, buffer, MAXBUF); puts(buffer); } } ET &amp;&amp; LT​​​​]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[数据库锁]]></title>
+    <url>%2F2019%2F09%2F09%2F%E6%95%B0%E6%8D%AE%E5%BA%93%E9%94%81%2F</url>
+    <content type="text"><![CDATA[https://blog.csdn.net/C_J33/article/details/79487941]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[zookeeper 一致性]]></title>
     <url>%2F2019%2F09%2F09%2Fzookeeper-%E4%B8%80%E8%87%B4%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》 看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容错性 该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。 zookeeper 的一致性什么是一致性？ 一致性就是从系统外部读取系统内部的数据时，即数据变动在系统内部各节点应该是同步的 一致性分类分成五类，强度依次减弱。 强一致性 用户都只能读到最近一次成功的数据。 单调一致性 任何时刻，任何用户一旦读到某个数据在某次更新后的值，那么就不会再读到比这个值更旧的值。也就是说，可获取的数据顺序必是单调递增的。 会话一致性 在单调一致性上发送约束，只保证在会话阶段是单调的一致。 最终一致性 用户只能读到某次更新后的值，但系统保证数据将最终达到完全一致的状态，只是所需时间不能保障 弱一致性 用户无法在确定时间内读到最新更新的值 ZAB协议 (ZooKeeper Atomic Broadcast 广播)主要有两个模式，崩溃恢复和消息广播 1.崩溃恢复：主要就是Leader选举过程 2.数据同步：Leader服务器与其他服务器进行数据同步 3.消息广播：Leader服务器将数据发送给其他服务器在这里要记住一个ZXID的概念，代表当前最高提案]]></content>
+    <content type="text"><![CDATA[写在开头文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》 看这个博客整理https://www.cnblogs.com/sunddenly/p/4138580.html CAP理论C:Consistency 一致性 数据一致更新，所有数据变动都是同步的 A:Availability 可用性 系统具有好的响应性能 P:Partition tolerance 分区容错性 该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。 zookeeper 的一致性什么是一致性？ 一致性就是从系统外部读取系统内部的数据时，即数据变动在系统内部各节点应该是同步的 一致性分类分成五类，强度依次减弱。 强一致性 用户都只能读到最近一次成功的数据。 单调一致性 任何时刻，任何用户一旦读到某个数据在某次更新后的值，那么就不会再读到比这个值更旧的值。也就是说，可获取的数据顺序必是单调递增的。 会话一致性 在单调一致性上发送约束，只保证在会话阶段是单调的一致。 最终一致性 用户只能读到某次更新后的值，但系统保证数据将最终达到完全一致的状态，只是所需时间不能保障 弱一致性 用户无法在确定时间内读到最新更新的值 ZAB协议 (ZooKeeper Atomic Broadcast 广播)主要有两个模式，崩溃恢复和消息广播 1.崩溃恢复：主要就是Leader选举过程 2.数据同步：Leader服务器与其他服务器进行数据同步 3.消息广播：Leader服务器将数据发送给其他服务器在这里要记住一个ZXID的概念，代表当前最高提案 zookeeper是如何保证事务的顺序一致性的？ zookeeper采用了递增的事务Id来标识，所有的proposal（提议）都在被提出的时候加上了zxid，zxid实际上是一个64位的数字，高32位是epoch（时期; 纪元; 世; 新时代）用来标识leader是否发生改变，如果有新的leader产生出来，epoch会自增，低32位用来递增计数。当新产生proposal的时候，会依据数据库的两阶段过程，首先会向其他的server发出事务执行请求，如果超过半数的机器都能执行并且能够成功，那么就会开始执行。]]></content>
       <categories>
         <category>大数据</category>
       </categories>

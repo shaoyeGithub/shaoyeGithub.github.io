@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-09-09T14:03:48.787Z</updated>
+  <updated>2019-09-23T13:46:41.334Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,13 +17,67 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>IO多路复用</title>
+    <link href="http://yoursite.com/2019/09/10/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/"/>
+    <id>http://yoursite.com/2019/09/10/IO多路复用/</id>
+    <published>2019-09-10T15:14:42.000Z</published>
+    <updated>2019-09-23T13:46:41.334Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h1><blockquote><p>多路复用基于事件驱动来实现，事件驱动是多路复用的核心机制</p><p>用来解决单次请求阻塞的问题，例如等待处理read请求，阻塞在哪里</p><p>Unix网络编程中，这么定义IO多路复用，内核一旦发现</p></blockquote><h1 id="IO-分类"><a href="#IO-分类" class="headerlink" title="IO 分类"></a>IO 分类</h1><h2 id="阻塞式IO-最常见的等待那种"><a href="#阻塞式IO-最常见的等待那种" class="headerlink" title="阻塞式IO 最常见的等待那种"></a>阻塞式IO 最常见的等待那种</h2><h1 id="select-（阻塞）"><a href="#select-（阻塞）" class="headerlink" title="select （阻塞）"></a>select （阻塞）</h1><blockquote><p>int  select(int  nfds,  fd_set  *readfds,  fd_set  *writefds,  fd_set  *exceptfds,  struct  timeval  *timeout);</p><p>nfds 为最大的文件描述符值 +1</p><p>readfds 某些文件描述符所指向的 socket 已经有数据可读或者数据 EOF</p><p>writefds 某些文件描述符所指向的 socket 是否可写数据了</p><p>exceptfds 某些文件描述符所指向的 socket 出现异常</p></blockquote><pre><code>1. fd_set 文件描述符的集合 （数组） 会将其拷贝到内核态，readset在内核态轮训检查2. 数据结构大小有限  使用的是bitmap 存储fd3. 当有数据的来，会将fd_set 置位，select返回，然后再根据置位来查找文件描述符4. 当没有数据，会阻塞。</code></pre><h1 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h1><blockquote><p><code>int poll (struct pollfd *fds, unsigned int nfds, int timeout);</code></p></blockquote><pre><code>struct  pollfd  {  int  fd;  short  events;  short  revents;};</code></pre><p>pollfd 的结构如下， 每个 fd 都有对应的监听事件 events，和就绪返回的事件 revents，现在 fd 的大小是 int 最大值了</p><h1 id="select-VS-poll"><a href="#select-VS-poll" class="headerlink" title="select VS poll:"></a>select VS poll:</h1><blockquote><p>poll 不需要每次都重新构建需要监控的 fd set，但还是会有引起上下文切换的内存 copy</p><p>poll 不需要像 select 那样需要用户计算 fd 的最大值 +1，作为 select 函数的第一个参数</p><p>poll 减少了 fd 的遍历，在 select 中监控的某 socket 所对应的 fd 值为 1000，那么需要做 1000 次循环</p><p>poll 解除了 select 对于 fd 数量 1024 的限制</p><p>poll 在 unix 下不支持</p></blockquote><h1 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h1><blockquote><p>有数据，进行数据重排，放到前面</p></blockquote><pre><code>while(1){  puts(&quot;round again&quot;);  nfds = epoll_wait(epfd, events, 5, 10000);//nfds 返回的即为多个前面的有数据的fdfor(i=0;i&lt;nfds;i++) {        memset(buffer,0,MAXBUF);        read(events[i].data.fd, buffer, MAXBUF);        puts(buffer);}</code></pre><p>  }</p><h1 id="ET-amp-amp-LT"><a href="#ET-amp-amp-LT" class="headerlink" title="ET &amp;&amp; LT"></a>ET &amp;&amp; LT</h1><p>​​​​<img src="https://img-blog.csdnimg.cn/20190923214635494.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p><img src="https://img-blog.csdnimg.cn/20190923214608806.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NoYW95ZV9jc2RuMQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;IO多路复用&quot;&gt;&lt;a href=&quot;#IO多路复用&quot; class=&quot;headerlink&quot; title=&quot;IO多路复用&quot;&gt;&lt;/a&gt;IO多路复用&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;多路复用基于事件驱动来实现，事件驱动是多路复用的核心机制&lt;/p&gt;
+&lt;p&gt;用来解决单
+      
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据库锁</title>
+    <link href="http://yoursite.com/2019/09/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E9%94%81/"/>
+    <id>http://yoursite.com/2019/09/09/数据库锁/</id>
+    <published>2019-09-09T14:16:40.000Z</published>
+    <updated>2019-09-09T14:18:12.523Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/C_J33/article/details/79487941" target="_blank" rel="noopener">https://blog.csdn.net/C_J33/article/details/79487941</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/C_J33/article/details/79487941&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://blog.csdn.net/C_J33/article/details
+      
+    
+    </summary>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
     <title>zookeeper 一致性</title>
     <link href="http://yoursite.com/2019/09/09/zookeeper-%E4%B8%80%E8%87%B4%E6%80%A7/"/>
     <id>http://yoursite.com/2019/09/09/zookeeper-一致性/</id>
     <published>2019-09-09T13:18:39.000Z</published>
-    <updated>2019-09-09T14:03:48.787Z</updated>
+    <updated>2019-09-09T14:16:44.095Z</updated>
     
-    <content type="html"><![CDATA[<blockquote><p>写在开头<br>文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》</p></blockquote><p>看这个博客整理<br><a href="https://www.cnblogs.com/sunddenly/p/4138580.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunddenly/p/4138580.html</a></p><hr><h1 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h1><pre><code>C:Consistency 一致性 数据一致更新，所有数据变动都是同步的A:Availability 可用性 系统具有好的响应性能P:Partition tolerance 分区容错性 该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。</code></pre><hr><h1 id="zookeeper-的一致性"><a href="#zookeeper-的一致性" class="headerlink" title="zookeeper 的一致性"></a>zookeeper 的一致性</h1><h2 id="什么是一致性？"><a href="#什么是一致性？" class="headerlink" title="什么是一致性？"></a>什么是一致性？</h2><blockquote><p>一致性就是从系统外部读取系统内部的数据时，即数据变动在系统内部各节点应该是同步的</p></blockquote><h2 id="一致性分类"><a href="#一致性分类" class="headerlink" title="一致性分类"></a>一致性分类</h2><p>分成五类，强度依次减弱。</p><h3 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h3><blockquote><p>用户都只能读到最近一次成功的数据。</p></blockquote><h3 id="单调一致性"><a href="#单调一致性" class="headerlink" title="单调一致性"></a>单调一致性</h3><blockquote><p>任何时刻，任何用户一旦读到某个数据在某次更新后的值，那么就不会再读到比这个值更旧的值。也就是说，可获取的数据顺序必是单调递增的。</p></blockquote><h3 id="会话一致性"><a href="#会话一致性" class="headerlink" title="会话一致性"></a>会话一致性</h3><blockquote><p>在单调一致性上发送约束，只保证在会话阶段是单调的一致。</p></blockquote><h3 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h3><blockquote><p>用户只能读到某次更新后的值，但系统保证数据将最终达到完全一致的状态，只是所需时间不能保障</p></blockquote><h3 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h3><blockquote><p>用户无法在确定时间内读到最新更新的值</p></blockquote><h1 id="ZAB协议-ZooKeeper-Atomic-Broadcast-广播"><a href="#ZAB协议-ZooKeeper-Atomic-Broadcast-广播" class="headerlink" title="ZAB协议 (ZooKeeper Atomic Broadcast 广播)"></a>ZAB协议 (ZooKeeper Atomic Broadcast 广播)</h1><p>主要有两个模式，崩溃恢复和消息广播</p><pre><code>1.崩溃恢复：主要就是Leader选举过程2.数据同步：Leader服务器与其他服务器进行数据同步3.消息广播：Leader服务器将数据发送给其他服务器</code></pre><p>在这里要记住一个ZXID的概念，代表当前最高提案</p>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>写在开头<br>文章内容 阅读 与《从Paxos到ZooKeeper:分布式一致性原理与实践》</p></blockquote><p>看这个博客整理<br><a href="https://www.cnblogs.com/sunddenly/p/4138580.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunddenly/p/4138580.html</a></p><hr><h1 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h1><pre><code>C:Consistency 一致性 数据一致更新，所有数据变动都是同步的A:Availability 可用性 系统具有好的响应性能P:Partition tolerance 分区容错性 该理论已被证明：任何分布式系统只可同时满足两点，无法三者兼顾。 因此，将精力浪费在思考如何设计能满足三者的完美系统上是愚钝的，应该根据应用场景进行适当取舍。</code></pre><hr><h1 id="zookeeper-的一致性"><a href="#zookeeper-的一致性" class="headerlink" title="zookeeper 的一致性"></a>zookeeper 的一致性</h1><h2 id="什么是一致性？"><a href="#什么是一致性？" class="headerlink" title="什么是一致性？"></a>什么是一致性？</h2><blockquote><p>一致性就是从系统外部读取系统内部的数据时，即数据变动在系统内部各节点应该是同步的</p></blockquote><h2 id="一致性分类"><a href="#一致性分类" class="headerlink" title="一致性分类"></a>一致性分类</h2><p>分成五类，强度依次减弱。</p><h3 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h3><blockquote><p>用户都只能读到最近一次成功的数据。</p></blockquote><h3 id="单调一致性"><a href="#单调一致性" class="headerlink" title="单调一致性"></a>单调一致性</h3><blockquote><p>任何时刻，任何用户一旦读到某个数据在某次更新后的值，那么就不会再读到比这个值更旧的值。也就是说，可获取的数据顺序必是单调递增的。</p></blockquote><h3 id="会话一致性"><a href="#会话一致性" class="headerlink" title="会话一致性"></a>会话一致性</h3><blockquote><p>在单调一致性上发送约束，只保证在会话阶段是单调的一致。</p></blockquote><h3 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h3><blockquote><p>用户只能读到某次更新后的值，但系统保证数据将最终达到完全一致的状态，只是所需时间不能保障</p></blockquote><h3 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h3><blockquote><p>用户无法在确定时间内读到最新更新的值</p></blockquote><h1 id="ZAB协议-ZooKeeper-Atomic-Broadcast-广播"><a href="#ZAB协议-ZooKeeper-Atomic-Broadcast-广播" class="headerlink" title="ZAB协议 (ZooKeeper Atomic Broadcast 广播)"></a>ZAB协议 (ZooKeeper Atomic Broadcast 广播)</h1><p>主要有两个模式，崩溃恢复和消息广播</p><pre><code>1.崩溃恢复：主要就是Leader选举过程2.数据同步：Leader服务器与其他服务器进行数据同步3.消息广播：Leader服务器将数据发送给其他服务器</code></pre><p>在这里要记住一个ZXID的概念，代表当前最高提案</p><h1 id="zookeeper是如何保证事务的顺序一致性的？"><a href="#zookeeper是如何保证事务的顺序一致性的？" class="headerlink" title="zookeeper是如何保证事务的顺序一致性的？"></a>zookeeper是如何保证事务的顺序一致性的？</h1><blockquote><p>zookeeper采用了递增的事务Id来标识，所有的proposal（提议）都在被提出的时候加上了zxid，zxid实际上是一个64位的数字，高32位是epoch（时期; 纪元; 世; 新时代）用来标识leader是否发生改变，如果有新的leader产生出来，epoch会自增，低32位用来递增计数。当新产生proposal的时候，会依据数据库的两阶段过程，首先会向其他的server发出事务执行请求，如果超过半数的机器都能执行并且能够成功，那么就会开始执行。</p></blockquote>]]></content>
     
     <summary type="html">
     
@@ -497,60 +551,6 @@ public:
     
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>extren关键字</title>
-    <link href="http://yoursite.com/2019/09/08/extren%E5%85%B3%E9%94%AE%E5%AD%97/"/>
-    <id>http://yoursite.com/2019/09/08/extren关键字/</id>
-    <published>2019-09-08T05:00:00.000Z</published>
-    <updated>2019-09-08T06:58:15.954Z</updated>
-    
-    <content type="html"><![CDATA[<p>@[toc]</p><h1 id="首先-明白-这个单词-是什么意思？"><a href="#首先-明白-这个单词-是什么意思？" class="headerlink" title="首先 明白 这个单词 是什么意思？"></a>首先 明白 这个单词 是什么意思？</h1><p>Extern : 外部 的意思</p><h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><p>置于 变量或者函数前，表示变量或者函数的定义在别的文件中，提示 编译器 遇到此变量和函数时，在其他模块中寻找其定义。</p><h1 id="作用-主要有两个"><a href="#作用-主要有两个" class="headerlink" title="作用  主要有两个"></a>作用  主要有两个</h1><p>第一个 ： 与 “C” 一起连用时，如 extern  “C” void fun（int a，int b）告诉编译器在编译fun 这个函数名的时候按照C的规则去编译。而不是C++</p><p>第二个： 当extern 不与C 一起修饰变量或函数时。如在头文件中：externa int g_int ;作用是：   声明函数或者全局变量 的作用范围的关键字，声明的函数或者变量可以在本模块或者其他模块中使用。记住，它 是<strong>一个声明不是定义</strong>。</p><p>extern用在变量声明中常常有这样一个作用，你在<em>.c文件中声明了一个全局的变量，这个全局的变量如果要被引用，就放在</em>.h中并用extern来声明。</p><h1 id="具体解释及示例"><a href="#具体解释及示例" class="headerlink" title=".具体解释及示例"></a>.具体解释及示例</h1><p>2.1.extern的变量和函数声明<br>extern用于修饰变量或函数，用于声明当前变量或函数可以在本模块或者其他模块中使用。不过要记住的是extern只是声明，而不是定义，也就是说extern并不分配空间。而这个查找的过程是在连接的过程中进行的，因此编译阶段虽然找不到该变量或函数，但是也不会报错。下面用三个例子来看一看。</p><p>（1）无extern声明，有变量定义。</p><pre><code>stdafx.cpp#include &quot;stdafx.h&quot;int g_test;main.cppint _tmain(int argc, _TCHAR* argv[]){    g_test=2;    std::cout&lt;&lt;g_test;    return 0;}</code></pre><p>提示错误，因为此时main中不能调用到g_test。<br>1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(25) : error C2065: “g_test”: 未声明的标识符<br>1&gt;d:\microsoft visual studio 9.0\projects\testcpp\testcpp\testcpp.cpp(26) : error C2065: “g_test”: 未声明的标识符</p><p>（2）有extern声明，无变量定义。</p><pre><code>stdafx.hextern int g_test;main.cppint _tmain(int argc, _TCHAR* argv[]){    g_test=2;    std::cout&lt;&lt;g_test;    return 0;}</code></pre><p>提示错误，因为extern只是声明，并没有定义，也就没有空间的分配，而这时一个链接错误，编译的时候没办法发现。<br>1&gt;TestCpp.obj : error LNK2001: 无法解析的外部符号 “int g_test” (?g_test@@3HA)<br>1&gt;D:\Microsoft Visual Studio 9.0\Projects\TestCpp\Debug\TestCpp.exe : fatal error LNK1120: 1 个无法解析的外部命令</p><p>（3）有extern声明，也有变量定义。</p><pre><code>stdafx.cpp#include &quot;stdafx.h&quot;int g_test;stdafx.hextern int g_test;main.cppint _tmain(int argc, _TCHAR* argv[]){    g_test=2;    std::cout&lt;&lt;g_test;    return 0;}</code></pre><p>程序执行正常。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;@[toc]&lt;/p&gt;
-&lt;h1 id=&quot;首先-明白-这个单词-是什么意思？&quot;&gt;&lt;a href=&quot;#首先-明白-这个单词-是什么意思？&quot; class=&quot;headerlink&quot; title=&quot;首先 明白 这个单词 是什么意思？&quot;&gt;&lt;/a&gt;首先 明白 这个单词 是什么意思？&lt;/h1
-      
-    
-    </summary>
-    
-    
-      <category term="C++" scheme="http://yoursite.com/categories/C/"/>
-    
-    
-      <category term="C++" scheme="http://yoursite.com/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>static关键字</title>
-    <link href="http://yoursite.com/2019/09/08/static%E5%85%B3%E9%94%AE%E5%AD%97/"/>
-    <id>http://yoursite.com/2019/09/08/static关键字/</id>
-    <published>2019-09-08T04:57:09.000Z</published>
-    <updated>2019-09-08T06:59:10.003Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="静态全局变量"><a href="#静态全局变量" class="headerlink" title="静态全局变量"></a>静态全局变量</h1><ol><li>在全局变量前面，加上关键字 static  ，该变量就成为一个静态全局变量<br>特点：</li><li>1 在全局数据区分配内存</li><li>2 未经初始化的静态全局变量会被程序自动初始化为0（自动变量的值 是随机的，除非它被显式初始化）</li><li>3 <strong>静态全局变量在声明它的整个文件都是可见的，而在文件之外是不可见。</strong></li></ol><p>理解： 避免变量 命名冲突，和其他文件中变量相撞。</p><pre><code>//Example 2//File1#include &lt;iostream.h&gt;void fn();static int n; //定义静态全局变量void main(){ 　　n=20; 　　cout&lt;&lt;n&lt;&lt;endl; 　　fn();}//File2#include &lt;iostream.h&gt;extern int n;void fn(){　　 n++; 　　cout&lt;&lt;n&lt;&lt;endl;}</code></pre><p>编译并运行Example 2，您就会发现上述代码可以分别通过编译，但运行时出现错误。试着将 “static int n; //定义静态全局变量”改为 “int n; //定义全局变量”<br>再次编译运行程序，细心体会“全局变量”和”静态全局变量”的区别。</p><h1 id="静态局部变量"><a href="#静态局部变量" class="headerlink" title="静态局部变量"></a>静态局部变量</h1><p>特点：</p><ol><li>静态局部变量 在全局数据区分配内存</li><li>静态局部变量在程序执行到该对象的声明处时，被第一次初始化，即 以后的函数调用不在进行初始化。</li><li>静态局部变量一般在声明处初始化，如果没有显式初始化，会被程序自动初始化为0</li><li>会始终驻留在 全局数据区，直到程序运行结束，但其作用域为局部作用域，当定义它的函数或者语句块结束时，其作用域随之结束。</li></ol><p>通常，在函数体内定义了一个变量，每当程序运行到该语句时都会给该局部变量分配栈内存。但随着程序退出函数体，系统就会收回栈内存，局部变量也相应失效。但有时候我们需要在两次调用之间对变量的值进行保存。通常的想法是定义一个全局变量来实现。但这样一来，变量已经不再属于函数本身了，不再仅受函数的控制，给程序的维护带来不便。<br>静态局部变量正好可以解决这个问题。静态局部变量保存在全局数据区，而不是保存在栈中，每次的值保持到下一次调用，直到下次赋新值。 </p><p>理解：静态全局变量 维护 比 静态局部变量维护开销大?<br>static 默认进行初始化为0，并且数据是放在全局数据区中的。两次函数调用就可以对同一个变量进行操作。</p><h1 id="静态函数"><a href="#静态函数" class="headerlink" title="静态函数"></a>静态函数</h1><ol><li>只能在声明它的文件中可用，其他文件不能被使用 ，从而避免命名冲突</li></ol><h1 id="类中的static-关键字"><a href="#类中的static-关键字" class="headerlink" title="类中的static 关键字"></a>类中的static 关键字</h1><h2 id="静态数据成员"><a href="#静态数据成员" class="headerlink" title="静态数据成员"></a>静态数据成员</h2><p>非静态数据成员，会存在多份拷贝，<br>静态数据成员，会存在一份拷贝，由该类型的所有对象共享访问。所以静态成员的值对每个对象都是一样的，它的值可以更新，</p><p><strong><em>静态数据成员存储在全局数据区。静态数据成员定义时要分配空间，所以不能在类声明中定义。</em></strong></p><p> 静态数据成员和普通数据成员一样遵从public,protected,private访问规则； </p><p><strong><em>实现信息隐藏</em></strong>，<strong><em>静态数据成员可以是private成员，而全局变量不可以</em></strong></p><h2 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h2><p>普通函数拥有this 指针 会指向对象本身、<br>但是与普通函数相比，静态成员函数由于不是与任何的对象相联系，因此不具有this 指针。</p><p>从而更进一步说，它无法访问属于类对象的非静态数据成员，也无法访问非静态成员函数，只能调用其余的<strong>静态成员函数</strong>。</p><pre><code>#include &lt;iostream.h&gt;class Myclass{public: 　　Myclass(int a,int b,int c); 　　static void GetSum();/声明静态成员函数private: 　　int a,b,c;　　 static int Sum;//声明静态数据成员};int Myclass::Sum=0;//定义并初始化静态数据成员Myclass::Myclass(int a,int b,int c){ 　　this-&gt;a=a; 　　this-&gt;b=b; 　　this-&gt;c=c; 　　Sum+=a+b+c; //非静态成员函数可以访问静态数据成员}void Myclass::GetSum() //静态成员函数的实现{　　// cout&lt;&lt;a&lt;&lt;endl; //错误代码，a是非静态数据成员 　　cout&lt;&lt;&quot;Sum=&quot;&lt;&lt;Sum&lt;&lt;endl;}void main(){ 　　Myclass M(1,2,3); 　　M.GetSum(); 　　Myclass N(4,5,6); 　　N.GetSum(); 　　Myclass::GetSum();}</code></pre><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol><li>非静态成员函数可以任意访问静态成员函数和静态数据成员。</li><li>静态成员函数不能访问非静态成员函数和非静态数据成员。（因为没有this 指针）</li><li>由于没有this 指针的额外开销，静态成员函数与类的全局函数相比速度会有少许的增长。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;静态全局变量&quot;&gt;&lt;a href=&quot;#静态全局变量&quot; class=&quot;headerlink&quot; title=&quot;静态全局变量&quot;&gt;&lt;/a&gt;静态全局变量&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;在全局变量前面，加上关键字 static  ，该变量就成为一个静态全局变量&lt;br&gt;特点：&lt;/li
-      
-    
-    </summary>
-    
-    
-      <category term="C++" scheme="http://yoursite.com/categories/C/"/>
-    
-    
-      <category term="C++" scheme="http://yoursite.com/tags/C/"/>
     
   </entry>
   
